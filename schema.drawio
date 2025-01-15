@@ -1,0 +1,51 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="26.0.5">
+  <diagram name="Page-1" id="CTdTeez5T_3QeWwnysuH">
+    <mxGraphModel dx="2284" dy="738" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="k7vCAEOM418WqJB6xbbn-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="1shTWV9QBjh5pvocrsGJ-1" target="1shTWV9QBjh5pvocrsGJ-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1shTWV9QBjh5pvocrsGJ-1" value="Users (auth)&lt;div&gt;id&lt;/div&gt;&lt;div&gt;name&lt;/div&gt;&lt;div&gt;username&lt;/div&gt;&lt;div&gt;password&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="190" y="185" width="120" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="1shTWV9QBjh5pvocrsGJ-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="1shTWV9QBjh5pvocrsGJ-2" target="1shTWV9QBjh5pvocrsGJ-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1shTWV9QBjh5pvocrsGJ-2" value="Games&lt;div&gt;id&lt;/div&gt;&lt;div&gt;owner_user_id&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="-40" y="190" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1shTWV9QBjh5pvocrsGJ-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="1shTWV9QBjh5pvocrsGJ-3" target="1shTWV9QBjh5pvocrsGJ-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1shTWV9QBjh5pvocrsGJ-3" value="Votes&lt;div&gt;user_id&lt;/div&gt;&lt;div&gt;number&lt;/div&gt;&lt;div&gt;song name&lt;/div&gt;&lt;div&gt;artist&lt;/div&gt;&lt;div&gt;song_id&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="160" width="120" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="1shTWV9QBjh5pvocrsGJ-4" value="Songs&lt;div&gt;id&lt;/div&gt;&lt;div&gt;name&lt;/div&gt;&lt;div&gt;artist&lt;/div&gt;&lt;div&gt;Rule&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="690" y="165" width="120" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="1shTWV9QBjh5pvocrsGJ-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="1shTWV9QBjh5pvocrsGJ-5" target="1shTWV9QBjh5pvocrsGJ-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1shTWV9QBjh5pvocrsGJ-5" value="Played Songs&lt;div&gt;&lt;div&gt;song_id&lt;/div&gt;&lt;div&gt;countdown_position&lt;/div&gt;&lt;div&gt;played_at&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="320" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1shTWV9QBjh5pvocrsGJ-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="1shTWV9QBjh5pvocrsGJ-13" target="1shTWV9QBjh5pvocrsGJ-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1shTWV9QBjh5pvocrsGJ-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="1shTWV9QBjh5pvocrsGJ-13" target="1shTWV9QBjh5pvocrsGJ-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="110" y="380" />
+              <mxPoint x="110" y="235" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="1shTWV9QBjh5pvocrsGJ-13" value="Game players&lt;div&gt;game_id&lt;/div&gt;&lt;div&gt;user_id&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="-200" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
