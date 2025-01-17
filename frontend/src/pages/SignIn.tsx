@@ -55,10 +55,7 @@ function SignIn() {
 
   const handleSignUp = async () => {
     if (username.length > -1) {
-      console.log(username, password);
-      console.log(password, confirmPassword);
       await register(name, username, password).then((result) => {
-        console.log(result);
         if (next_url) {
           navigate(next_url);
         } else {

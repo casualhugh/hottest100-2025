@@ -10,6 +10,7 @@ import PocketBase from "pocketbase";
 import { useInterval } from "usehooks-ts";
 import { jwtDecode } from "jwt-decode";
 import ms from "ms";
+import { useLocation } from "react-router-dom";
 
 const BASE_URL = "http://127.0.0.1:8000";
 const fiveMinutesInMs = ms("5 minutes");
@@ -36,13 +37,39 @@ export const PocketProvider = ({ children }) => {
   pb.autoCancellation(false);
   const [token, setToken] = useState(pb.authStore.token);
   const [user, setUser] = useState(pb.authStore.model);
+  const [game, setGame] = useState(null);
+  const location = useLocation();
+  const id = location.pathname.split("/").pop();
+  const getGame = () => {
+    if (id.length > 0) {
+      gameExists(id).then((success) => {
+        if (success) {
+          try {
+            pb.collection("games")
+              .getFirstListItem(`game_code = "${id}"`, { expand: "players" })
+              .then((resultList) => {
+                if (resultList.length === 0) {
+                  return;
+                }
+                setGame(resultList[0]);
+              })
+              .catch((e) => {
+              });
+          } catch (e) {
+          }
+        }
+      });
+    }
+  };
 
   useEffect(() => {
+    getGame();
     return pb.authStore.onChange((token, model) => {
+      getGame();
       setToken(token);
       setUser(model);
     });
-  }, []);
+  }, [id]);
 
   const register = useCallback(async (name, username, password) => {
     await pb.collection("users").create({
@@ -89,16 +116,21 @@ export const PocketProvider = ({ children }) => {
           .getFirstListItem(`user = "${user.id}"`, {});
         return resultList.votes.length == 10;
       } catch (e) {
-        console.log("No votes", e);
       }
     } else {
-      console.log("No user");
     }
     return false;
   }, [user]);
 
   const gameExists = useCallback(async (game_code: string) => {
     const result = await pb.send(`/api/hottest/exists/${game_code}`, {});
+    return result.success;
+  }, []);
+
+  const joinGame = useCallback(async (game_code: string) => {
+    const result = await pb.send(`/api/hottest/join/${game_code}`, {
+      method: "POST",
+    });
     return result.success;
   }, []);
 
@@ -113,7 +145,6 @@ export const PocketProvider = ({ children }) => {
   }, [token]);
 
   useInterval(refreshSession, token ? twoMinutesInMs : null);
-  console.log("User", user);
   return (
     <PocketContext.Provider
       value={{
@@ -127,6 +158,8 @@ export const PocketProvider = ({ children }) => {
         guestRegister,
         votesDone,
         gameExists,
+        joinGame,
+        game,
       }}
     >
       {children}

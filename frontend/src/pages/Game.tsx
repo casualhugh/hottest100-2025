@@ -37,7 +37,6 @@ const Game = () => {
       pb.collection("played").subscribe(
         "*",
         function (e) {
-          console.log(e.action);
           if (e.action === "create") {
             setNowPlaying({
               name: e.record.expand.song.name,
@@ -45,7 +44,6 @@ const Game = () => {
               rule: e.record.expand?.song.game_rule,
             });
           }
-          console.log(e.record);
         },
         {
           expand: "song",

@@ -11,25 +11,32 @@ import NewGame from "@/pages/NewGame";
 import SignIn from "@/pages/SignIn";
 import MainLayout from "@/layouts/MainLayout";
 import { PocketProvider } from "@/contexts/PocketContext";
+import { RequireAuth } from "@/components/RequireAuth";
+import { RequireInGame } from "@/components/RequireInGame";
 
 const AppRoutes: React.FC = () => (
-  <PocketProvider>
-    <MainLayout>
-      <Router>
+  <Router>
+    <PocketProvider>
+      <MainLayout>
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/votes/:id" element={<Votes />} />
-          <Route path="/manage/:id" element={<Manage />} />
-          <Route path="/name/:id" element={<Name />} />
-          <Route path="/settings/:id" element={<Settings />} />
-          <Route path="/game/:id" element={<Game />} />
-          <Route path="/question/:id" element={<LoginQuestion />} />
-          <Route path="/new/" element={<NewGame />} />
           <Route path="/login/" element={<SignIn />} />
+          <Route path="/name/:id" element={<Name />} />
+          <Route path="/question/:id" element={<LoginQuestion />} />
+          <Route element={<RequireAuth />}>
+            <Route path="/new/" element={<NewGame />} />
+
+            <Route element={<RequireInGame />}>
+              <Route path="/votes/:id" element={<Votes />} />
+              <Route path="/manage/:id" element={<Manage />} />
+              <Route path="/settings/:id" element={<Settings />} />
+              <Route path="/game/:id" element={<Game />} />
+            </Route>
+          </Route>
         </Routes>
-      </Router>
-    </MainLayout>
-  </PocketProvider>
+      </MainLayout>
+    </PocketProvider>
+  </Router>
 );
 
 export default AppRoutes;

@@ -34,11 +34,9 @@ function Name() {
   };
 
   const handleSpectate = () => {
-    console.log(user);
     if (user) {
       updateName(null);
     } else {
-      console.log("Creating a new guest with no name");
       guestRegister(null);
     }
     navigate(`/game/${id}`);
