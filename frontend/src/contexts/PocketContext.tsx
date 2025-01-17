@@ -37,28 +37,40 @@ export const PocketProvider = ({ children }) => {
   pb.autoCancellation(false);
   const [token, setToken] = useState(pb.authStore.token);
   const [user, setUser] = useState(pb.authStore.model);
-  const [game, setGame] = useState(null);
+  const [game, setGame] = useState({});
+  const [showCode, setShowCode] = useState(true);
   const location = useLocation();
   const id = location.pathname.split("/").pop();
+
+  const toggleShowCode = () => {
+    setShowCode(!showCode);
+  };
+
   const getGame = () => {
     if (id.length > 0) {
-      gameExists(id).then((success) => {
-        if (success) {
-          try {
-            pb.collection("games")
-              .getFirstListItem(`game_code = "${id}"`, { expand: "players" })
-              .then((resultList) => {
-                if (resultList.length === 0) {
-                  return;
+      try {
+        pb.collection("games")
+          .getFirstListItem(`game_code = "${id}"`, {
+            expand: "players",
+          })
+          .then((resultList) => {
+            if (resultList) {
+              setGame(resultList);
+              pb.collection("games").subscribe(
+                resultList.id,
+                function (e) {
+                  if (e.action === "update") {
+                    setGame(e.record);
+                  }
+                },
+                {
+                  expand: "players",
                 }
-                setGame(resultList[0]);
-              })
-              .catch((e) => {
-              });
-          } catch (e) {
-          }
-        }
-      });
+              );
+            }
+          })
+          .catch((e) => {});
+      } catch (e) {}
     }
   };
 
@@ -85,13 +97,13 @@ export const PocketProvider = ({ children }) => {
   const guestRegister = useCallback(async (name) => {
     const username = getRandomString(8);
     const password = getRandomString(16);
-    await pb.collection("users").create({
+    const result = await pb.collection("users").create({
       name,
       username,
       password,
       passwordConfirm: password,
     });
-    return login(username, password);
+    return { ...result, password };
   }, []);
 
   const login = useCallback(async (username, password) => {
@@ -115,8 +127,7 @@ export const PocketProvider = ({ children }) => {
           .collection("votes")
           .getFirstListItem(`user = "${user.id}"`, {});
         return resultList.votes.length == 10;
-      } catch (e) {
-      }
+      } catch (e) {}
     } else {
     }
     return false;
@@ -129,6 +140,13 @@ export const PocketProvider = ({ children }) => {
 
   const joinGame = useCallback(async (game_code: string) => {
     const result = await pb.send(`/api/hottest/join/${game_code}`, {
+      method: "POST",
+    });
+    return result.success;
+  }, []);
+
+  const leaveGame = useCallback(async (game_code: string) => {
+    const result = await pb.send(`/api/hottest/leave/${game_code}`, {
       method: "POST",
     });
     return result.success;
@@ -159,7 +177,10 @@ export const PocketProvider = ({ children }) => {
         votesDone,
         gameExists,
         joinGame,
+        leaveGame,
         game,
+        showCode,
+        toggleShowCode,
       }}
     >
       {children}

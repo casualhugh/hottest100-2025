@@ -37,7 +37,9 @@ function Name() {
     if (user) {
       updateName(null);
     } else {
-      guestRegister(null);
+      guestRegister(null).then((login) => {
+        login(login.username, login.password);
+      });
     }
     navigate(`/game/${id}`);
   };

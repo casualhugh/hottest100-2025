@@ -16,7 +16,7 @@ function Welcome() {
   };
 
   const handleEnterGame = () => {
-    if (gameCode.length > 0) {
+    if (gameCode.length > 3) {
       gameExists(gameCode).then((exists) => {
         if (exists) {
           setValidCode(true);
@@ -41,7 +41,7 @@ function Welcome() {
       });
     } else {
       setValidCode(false);
-      setErrorMsg("Game Code must be more than 4 letters");
+      setErrorMsg("Game Code must be more than 3 letters");
     }
   };
 
@@ -71,10 +71,11 @@ function Welcome() {
             value={gameCode || ""}
             onChange={handleCodeChange}
             type="text"
-            placeholder="elephant-wings"
+            placeholder="elephants"
             className={`py-2 text-center bg-transparent focus:outline-none`}
           />
         </div>
+        <p>{errorMsg}</p>
       </div>
 
       <div className="ml-8 mr-8 ">

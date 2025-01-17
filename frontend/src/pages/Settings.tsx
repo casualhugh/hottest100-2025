@@ -5,7 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function Settings() {
   const { id } = useParams<{ id: string }>();
-  const { logout } = usePocket();
+  const { pb, user, showCode, toggleShowCode, game, leaveGame, logout } =
+    usePocket();
   const navigate = useNavigate();
 
   const handleGoToGame = () => {
@@ -20,12 +21,21 @@ function Settings() {
     navigate(`/manage/${id}`);
   };
 
+  const handleCloseGame = () => {
+    pb.collection("games")
+      .delete(game.id)
+      .then((result) => {
+        navigate("/");
+      });
+  };
+
   const handleLeaveGame = () => {
     navigate("/");
+    leaveGame(game.game_code);
   };
 
   const toggleGameCodeVisibility = () => {
-    // TODO: toggle game code visibility
+    toggleShowCode();
   };
 
   const handleLogout = () => {
@@ -47,11 +57,27 @@ function Settings() {
       </div>
 
       <div className="ml-8 mr-8 ">
+        {game.owner === user.id ? (
+          <button
+            className="bg-black bg-opacity-50 text-white mt-2 w-full p-4 rounded-lg  font-bold"
+            onClick={handleCloseGame}
+            title="Warning this cannot be undone."
+          >
+            Delete Game
+          </button>
+        ) : (
+          <button
+            className="bg-black bg-opacity-50 text-white mt-2 w-full p-4 rounded-lg  font-bold"
+            onClick={handleLeaveGame}
+          >
+            Leave Game
+          </button>
+        )}
         <button
           className="bg-black bg-opacity-50 text-white mt-2 w-full p-4 rounded-lg  font-bold"
-          onClick={handleLeaveGame}
+          onClick={handleLogout}
         >
-          Leave Game
+          Log out
         </button>
         <button
           className="bg-black bg-opacity-50 text-white mt-2 w-full p-4 rounded-lg  font-bold"
@@ -59,12 +85,14 @@ function Settings() {
         >
           Change name
         </button>
-        <button
-          className="bg-black bg-opacity-50 text-white mt-2 w-full p-4 rounded-lg  font-bold"
-          onClick={handleManageGame}
-        >
-          Manage game
-        </button>
+        {game && game.owner == user.id && (
+          <button
+            className="bg-black bg-opacity-50 text-white mt-2 w-full p-4 rounded-lg  font-bold"
+            onClick={handleManageGame}
+          >
+            Manage game
+          </button>
+        )}
         <button
           className="bg-black bg-opacity-50 text-white mt-2 w-full p-4 rounded-lg  font-bold"
           onClick={handleGoToVotes}
@@ -76,7 +104,7 @@ function Settings() {
           className="bg-black bg-opacity-50 text-white mt-2 w-full p-4 rounded-lg  font-bold"
           onClick={toggleGameCodeVisibility}
         >
-          Hide game code
+          {showCode ? "Hide game code" : "Show game code"}
         </button>
         <button
           className="bg-primarybg mt-2 w-full text-black font-bold p-4"
@@ -84,12 +112,7 @@ function Settings() {
         >
           Go to Game
         </button>
-        <button
-          className="bg-primarybg mt-2 w-full text-black font-bold p-4"
-          onClick={handleLogout}
-        >
-          Log out
-        </button>
+
         <button
           onClick={handleGoToGame}
           className="bg-primarybg hover:bg-orange-700 text-black font-bold py-4 px-4 rounded-full absolute top-0 right-0 mt-6 mr-6"

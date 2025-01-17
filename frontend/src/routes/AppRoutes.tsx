@@ -28,9 +28,9 @@ const AppRoutes: React.FC = () => (
 
             <Route element={<RequireInGame />}>
               <Route path="/votes/:id" element={<Votes />} />
-              <Route path="/manage/:id" element={<Manage />} />
               <Route path="/settings/:id" element={<Settings />} />
               <Route path="/game/:id" element={<Game />} />
+              <Route path="/manage/:id" element={<Manage />} />
             </Route>
           </Route>
         </Routes>

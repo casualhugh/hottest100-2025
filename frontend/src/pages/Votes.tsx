@@ -5,39 +5,57 @@ import { usePocket } from "@/contexts/PocketContext";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 
+const NO_VOTES = [
+  { name: "", artist: "" },
+  { name: "", artist: "" },
+  { name: "", artist: "" },
+  { name: "", artist: "" },
+  { name: "", artist: "" },
+  { name: "", artist: "" },
+  { name: "", artist: "" },
+  { name: "", artist: "" },
+  { name: "", artist: "" },
+  { name: "", artist: "" },
+];
+
 function Name() {
   const { id } = useParams<{ id: string }>();
-  const { user, pb } = usePocket();
-  const [votes, setVotes] = useState([
-    { name: "", artist: "" },
-    { name: "", artist: "" },
-    { name: "", artist: "" },
-    { name: "", artist: "" },
-    { name: "", artist: "" },
-    { name: "", artist: "" },
-    { name: "", artist: "" },
-    { name: "", artist: "" },
-    { name: "", artist: "" },
-    { name: "", artist: "" },
-  ]);
+  const { user, game, pb } = usePocket();
 
-  const { data, isLoading, mutate } = useSWR(
-    "/getVotes",
-    async () =>
-      await pb
-        .collection("votes")
-        .getFirstListItem(`user = "${user.id}"`, { expand: "votes" })
-  );
+  const [votes, setVotes] = useState(NO_VOTES);
+
+  const query = new URLSearchParams(window.location.search);
+  const alt_user_id = query.get("user_id");
 
   useEffect(() => {
-    if (data && data?.expand && data?.expand?.votes) {
-      const newVotes = [...votes];
-      data.expand.votes.forEach((vote, i) => {
-        newVotes[i] = { ...vote };
-      });
-      setVotes(newVotes);
+    const user_id =
+      alt_user_id &&
+      game &&
+      game.owner == user.id &&
+      game?.players &&
+      game?.players.indexOf(alt_user_id) != -1
+        ? alt_user_id
+        : user?.id;
+
+    if (user && game) {
+      pb.collection("votes")
+        .getFirstListItem(`user="${user_id}"`, { expand: "votes" })
+        .then((res) => {
+          if (res) {
+            const newVotes = [...votes];
+            res.expand.votes.forEach((vote, i) => {
+              newVotes[i] = { ...vote };
+            });
+            setVotes(newVotes);
+          } else {
+            setVotes(NO_VOTES);
+          }
+        })
+        .catch((err) => {
+          setVotes(NO_VOTES);
+        });
     }
-  }, [data]);
+  }, [user, game]);
 
   const navigate = useNavigate();
 
@@ -60,7 +78,6 @@ function Name() {
         async (_, { arg }) => await pb.collection("votes").create(arg),
         {
           onSuccess: async (vote) => {
-            console.log(vote);
           },
         }
       );

@@ -13,7 +13,7 @@ const Game = () => {
     artist: "",
     rule: "",
   });
-  const { pb } = usePocket();
+  const { pb, game, showCode } = usePocket();
   const handleSettings = () => {
     navigate(`/settings/${id}`);
   };
@@ -54,7 +54,11 @@ const Game = () => {
 
   return (
     <>
-      <div className="absolute top-0 left-0 text-4xl">Game code: {`${id}`}</div>
+      {showCode && (
+        <div className="absolute top-0 left-0 text-4xl">
+          Game code: {`${id}`}
+        </div>
+      )}
       {nowPlaying.rule.length ? (
         <div className="text-4xl">{nowPlaying.rule}</div>
       ) : (

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function LoginQuestion() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { user, votesDone, guestRegister } = usePocket();
+  const { user, votesDone, login, guestRegister } = usePocket();
   const query = new URLSearchParams(window.location.search);
   const name = query.get("name");
   const handleLogin = () => {
@@ -22,7 +22,9 @@ function LoginQuestion() {
 
   const handleGoToVotes = () => {
     if (!user) {
-      guestRegister(name);
+      guestRegister(name).then((login)=>{
+        login(login.username, login.password);
+      });
     }
     votesDone().then((done) => {
       if (done) {
