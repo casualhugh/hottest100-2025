@@ -16,16 +16,16 @@ export const RequireInGame = () => {
   const location = useLocation();
 
   const notAllowed = () => {
-    gameExists(id).then((exists) => {
+    gameExists(id).then((exists: any) => {
       if (exists) {
-        joinGame(id).then((success) => {
+        joinGame(id).then((success: any) => {
           if (success) {
             if (user && user.name) {
               if (!user?.email) {
                 navigate(`/question/${id}`);
                 return;
               }
-              votesDone().then((done) => {
+              votesDone().then((done: any) => {
                 if (done) {
                   navigate(`/game/${id}`);
                 } else {
@@ -49,12 +49,12 @@ export const RequireInGame = () => {
       try {
         pb.collection("games")
           .getFirstListItem(`game_code = "${id}"`, { expand: "players" })
-          .then((resultList) => {
+          .then((resultList: any) => {
             if (resultList.length === 0) {
               notAllowed();
             }
           })
-          .catch((e) => {
+          .catch(() => {
             notAllowed();
           });
       } catch (e) {

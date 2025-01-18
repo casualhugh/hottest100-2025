@@ -1,6 +1,5 @@
-import * as React from "react";
 import "./animated.css";
-const SVGComponent = (props) => (
+const SVGComponent = () => (
   <svg
     width={256}
     height={256}
@@ -10,7 +9,6 @@ const SVGComponent = (props) => (
     viewBox="0 0 67.733332 67.733333"
     shapeRendering="geometricPrecision"
     textRendering="geometricPrecision"
-    {...props}
   >
     <style />
     <g>

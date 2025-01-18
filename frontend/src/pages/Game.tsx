@@ -13,12 +13,12 @@ const Game = () => {
     artist: "",
     rule: "",
   });
-  const { pb, game, showCode } = usePocket();
+  const { pb, showCode } = usePocket();
   const handleSettings = () => {
     navigate(`/settings/${id}`);
   };
 
-  const { data, isLoading, mutate } = useSWR(
+  const { data } = useSWR(
     "/getNowPlaying",
     async () =>
       await pb.collection("played").getFirstListItem("", {
@@ -36,7 +36,7 @@ const Game = () => {
       });
       pb.collection("played").subscribe(
         "*",
-        function (e) {
+        function (e: any) {
           if (e.action === "create") {
             setNowPlaying({
               name: e.record.expand.song.name,

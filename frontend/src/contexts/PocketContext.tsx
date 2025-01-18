@@ -9,16 +9,47 @@ import {
 import PocketBase from "pocketbase";
 import { useInterval } from "usehooks-ts";
 import { jwtDecode } from "jwt-decode";
-import ms from "ms";
 import { useLocation } from "react-router-dom";
 
 const BASE_URL = "http://127.0.0.1:8000";
-const fiveMinutesInMs = ms("5 minutes");
-const twoMinutesInMs = ms("2 minutes");
+const fiveMinutesInMs = 300000;
+const twoMinutesInMs = 120000;
+interface PocketContextType {
+  register: any;
+  login: any;
+  logout: any;
+  user: any;
+  token: any;
+  pb: any;
+  updateName: any;
+  guestRegister: any;
+  votesDone: any;
+  gameExists: any;
+  joinGame: any;
+  leaveGame: any;
+  game: any;
+  showCode: any;
+  toggleShowCode: any;
+}
+const PocketContext = createContext<PocketContextType>({
+  register: () => {},
+  login: () => {},
+  logout: () => {},
+  user: {},
+  token: "",
+  pb: () => {},
+  updateName: () => {},
+  guestRegister: () => {},
+  votesDone: false,
+  gameExists: false,
+  joinGame: () => {},
+  leaveGame: () => {},
+  game: null,
+  showCode: false,
+  toggleShowCode: ()  => {},
+});
 
-const PocketContext = createContext({});
-
-function getRandomString(length) {
+function getRandomString(length: number) {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
@@ -32,7 +63,7 @@ function getRandomString(length) {
   return result;
 }
 
-export const PocketProvider = ({ children }) => {
+export const PocketProvider = ({ children }: any) => {
   const pb = useMemo(() => new PocketBase(BASE_URL), []);
   pb.autoCancellation(false);
   const [token, setToken] = useState(pb.authStore.token);
@@ -47,7 +78,7 @@ export const PocketProvider = ({ children }) => {
   };
 
   const getGame = () => {
-    if (id.length > 0) {
+    if (id && id.length > 0) {
       try {
         pb.collection("games")
           .getFirstListItem(`game_code = "${id}"`, {
@@ -69,7 +100,7 @@ export const PocketProvider = ({ children }) => {
               );
             }
           })
-          .catch((e) => {});
+          .catch(() => {});
       } catch (e) {}
     }
   };
@@ -83,18 +114,21 @@ export const PocketProvider = ({ children }) => {
     });
   }, [id]);
 
-  const register = useCallback(async (name, username, password) => {
-    await pb.collection("users").create({
-      name,
-      username,
-      email: `${username}@hottest100game.com`,
-      password,
-      passwordConfirm: password,
-    });
-    return login(username, password);
-  }, []);
+  const register = useCallback(
+    async (name: string | null, username: string, password: string) => {
+      await pb.collection("users").create({
+        name,
+        username,
+        email: `${username}@hottest100game.com`,
+        password,
+        passwordConfirm: password,
+      });
+      return login(username, password);
+    },
+    []
+  );
 
-  const guestRegister = useCallback(async (name) => {
+  const guestRegister = useCallback(async (name: string) => {
     const username = getRandomString(8);
     const password = getRandomString(16);
     const result = await pb.collection("users").create({
@@ -106,11 +140,11 @@ export const PocketProvider = ({ children }) => {
     return { ...result, password };
   }, []);
 
-  const login = useCallback(async (username, password) => {
+  const login = useCallback(async (username: string, password: string) => {
     return await pb.collection("users").authWithPassword(username, password);
   }, []);
 
-  const updateName = useCallback((name) => {
+  const updateName = useCallback((name: string) => {
     if (user) {
       pb.collection("users").update(user.id, { name });
     }
@@ -156,8 +190,8 @@ export const PocketProvider = ({ children }) => {
     if (!pb.authStore.isValid) return;
     const decoded = jwtDecode(token);
     const tokenExpiration = decoded.exp;
-    const expirationWithBuffer = (decoded.exp + fiveMinutesInMs) / 1000;
-    if (tokenExpiration < expirationWithBuffer) {
+    const expirationWithBuffer = decoded && decoded?.exp ? (decoded?.exp + fiveMinutesInMs) / 1000 : fiveMinutesInMs;
+    if (tokenExpiration && tokenExpiration < expirationWithBuffer) {
       await pb.collection("users").authRefresh();
     }
   }, [token]);

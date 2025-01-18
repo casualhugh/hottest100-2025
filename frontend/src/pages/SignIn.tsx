@@ -17,16 +17,16 @@ function SignIn() {
   const next_url = query.get("next");
   const name = query.get("name");
 
-  const handleUserNameChange = (e) => {
+  const handleUserNameChange = (e: any) => {
     setUserName(e.target.value);
     setValidName(true);
   };
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e: any) => {
     setPassword(e.target.value);
   };
 
-  const handleConfirmPasswordChange = (e) => {
+  const handleConfirmPasswordChange = (e: any) => {
     setConfirmPassword(e.target.value);
     if (password !== confirmPassword) {
       setValidPassword(true);
@@ -36,14 +36,22 @@ function SignIn() {
   };
 
   const handleSignIn = async () => {
-    if (username.length > -1) {
-      await login(username, password).then((result) => {
-        if (next_url) {
-          navigate(next_url);
+    if (username.length > 1) {
+      await login(username, password).then((result: any) => {
+        if (result) {
+          if (next_url) {
+            navigate(next_url);
+          } else {
+            navigate("/");
+          }
         } else {
-          navigate("/");
+          setValidName(false);
+
         }
-      });
+      }).catch((error: any) => {
+        console.log(error);
+        setValidName(false);
+       });
     } else {
       setValidName(false);
     }
@@ -55,13 +63,20 @@ function SignIn() {
 
   const handleSignUp = async () => {
     if (username.length > -1) {
-      await register(name, username, password).then((result) => {
-        if (next_url) {
-          navigate(next_url);
-        } else {
-          navigate("/");
-        }
-      });
+      await register(name, username, password)
+        .then((result: any) => {
+          if (result) {
+            if (next_url) {
+              navigate(next_url);
+            } else {
+              navigate("/");
+            }
+          }
+        })
+        .catch((error: any) => {
+          console.log(error);
+          setValidName(false);
+        });
     } else {
       setValidName(false);
     }
@@ -103,13 +118,15 @@ function SignIn() {
             onChange={handlePasswordChange}
             type="password"
             placeholder="Enter your password..."
-            className={`py-2 text-center bg-transparent focus:outline-none`}
+            className={`py-2 text-center bg-transparent focus:outline-none ${
+              !validPassword ? "border border-red-600 border-4" : ""
+            }`}
           />
         </div>
         {signingUp && (
           <div
             className={`ml-24 mr-24 my-2 bg-black bg-opacity-50  ${
-              !validName ? "border border-red-600 border-4" : ""
+              !validPassword ? "border border-red-600 border-4" : ""
             }`}
           >
             <input

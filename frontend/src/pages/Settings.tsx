@@ -1,5 +1,4 @@
 import { usePocket } from "@/contexts/PocketContext";
-import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -24,7 +23,7 @@ function Settings() {
   const handleCloseGame = () => {
     pb.collection("games")
       .delete(game.id)
-      .then((result) => {
+      .then(() => {
         navigate("/");
       });
   };

@@ -9,7 +9,7 @@ function Welcome() {
   const { user, votesDone, gameExists } = usePocket();
   const navigate = useNavigate();
 
-  const handleCodeChange = (e) => {
+  const handleCodeChange = (e: any) => {
     setGameCode(e.target.value);
     setValidCode(true);
     setErrorMsg("");
@@ -17,7 +17,7 @@ function Welcome() {
 
   const handleEnterGame = () => {
     if (gameCode.length > 3) {
-      gameExists(gameCode).then((exists) => {
+      gameExists(gameCode).then((exists: any) => {
         if (exists) {
           setValidCode(true);
           if (user && user.name) {
@@ -25,7 +25,7 @@ function Welcome() {
               navigate(`/question/${gameCode}`);
               return;
             }
-            votesDone().then((done) => {
+            votesDone().then((done: any) => {
               if (done) {
                 navigate(`/game/${gameCode}`);
               } else {

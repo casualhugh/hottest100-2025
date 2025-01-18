@@ -20,7 +20,7 @@ function Settings() {
     }
     if (game.expand.players) {
       const players = game.expand.players.filter(
-        (player) => player.name && player.id != game.owner
+        (player: any) => player.name && player.id != game.owner
       );
       setPlayers(players);
     } else {
@@ -38,8 +38,8 @@ function Settings() {
 
   const removePlayer = (user_id: string) => {
     const newPlayers = players
-      .filter((player) => player.id != user_id)
-      .map((player) => {
+      .filter((player: any) => player.id != user_id)
+      .map((player: any) => {
         return player.id;
       });
     pb.collection("games").update(game?.id, {
@@ -49,9 +49,9 @@ function Settings() {
 
   const handleAddPlayer = () => {
     if (name.length > 2) {
-      guestRegister(name).then((result) => {
+      guestRegister(name).then((result: any) => {
         const newPlayers = [
-          ...players.map((player) => {
+          ...players.map((player: any) => {
             return player.id;
           }),
           result.id,
@@ -77,7 +77,7 @@ function Settings() {
       </div>
 
       <div className="ml-8 mr-8 ">
-        {players.map((player, index) => (
+        {players.map((player: any, index: number) => (
           <div
             key={index}
             className="flex flex-row items-center justify-center "

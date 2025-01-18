@@ -13,12 +13,14 @@ import MainLayout from "@/layouts/MainLayout";
 import { PocketProvider } from "@/contexts/PocketContext";
 import { RequireAuth } from "@/components/RequireAuth";
 import { RequireInGame } from "@/components/RequireInGame";
+import ComingSoon from "@/pages/ComingSoon";
 
 const AppRoutes: React.FC = () => (
   <Router>
     <PocketProvider>
       <MainLayout>
         <Routes>
+          <Route path="*" element={<ComingSoon />} />
           <Route path="/" element={<Welcome />} />
           <Route path="/login/" element={<SignIn />} />
           <Route path="/name/:id" element={<Name />} />

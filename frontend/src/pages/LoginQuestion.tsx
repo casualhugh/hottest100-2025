@@ -22,11 +22,11 @@ function LoginQuestion() {
 
   const handleGoToVotes = () => {
     if (!user) {
-      guestRegister(name).then((login)=>{
-        login(login.username, login.password);
+      guestRegister(name).then((login_info: any) => {
+        login(login_info.username, login_info.password);
       });
     }
-    votesDone().then((done) => {
+    votesDone().then((done: any) => {
       if (done) {
         navigate(`/game/${id}`);
       } else {

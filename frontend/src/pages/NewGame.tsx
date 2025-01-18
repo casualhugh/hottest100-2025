@@ -38,7 +38,7 @@ function NewGame() {
         .getList(1, 50, {
           filter: `owner="${user.id}"`,
         })
-        .then((resultList) => {
+        .then((resultList: any) => {
           generateUniqueGameCode().then((new_game_code) => {
             const game_code =
               resultList.items.length > 0
@@ -50,24 +50,26 @@ function NewGame() {
                 players: [user.id],
                 game_code: game_code,
               })
-              .then((game) => {})
-              .catch((e) => {
+              .then(() => {
+                if (!user?.name) {
+                  navigate(`/name/${game_code}`);
+                  return;
+                }
+                votesDone().then((done: any) => {
+                  if (done) {
+                    navigate(`/game/${game_code}`);
+                  } else {
+                    navigate(`/votes/${game_code}`);
+                  }
+                });
+              })
+              .catch(() => {
                 navigate("/");
+                return;
               });
-            if (!user?.name) {
-              navigate(`/name/${game_code}`);
-              return;
-            }
-            votesDone().then((done) => {
-              if (done) {
-                navigate(`/game/${game_code}`);
-              } else {
-                navigate(`/votes/${game_code}`);
-              }
-            });
           });
         })
-        .catch((e) => {});
+        .catch(() => {});
     } catch (e) {}
   }, [user]);
   return <div>New Game</div>;

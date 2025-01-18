@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { usePocket } from "@/contexts/PocketContext";
-import useSWR from "swr";
-import useSWRMutation from "swr/mutation";
 
 const NO_VOTES = [
   { name: "", artist: "" },
@@ -40,10 +38,10 @@ function Name() {
     if (user && game) {
       pb.collection("votes")
         .getFirstListItem(`user="${user_id}"`, { expand: "votes" })
-        .then((res) => {
+        .then((res: any) => {
           if (res) {
             const newVotes = [...votes];
-            res.expand.votes.forEach((vote, i) => {
+            res.expand.votes.forEach((vote: any, i: number) => {
               newVotes[i] = { ...vote };
             });
             setVotes(newVotes);
@@ -51,7 +49,7 @@ function Name() {
             setVotes(NO_VOTES);
           }
         })
-        .catch((err) => {
+        .catch(() => {
           setVotes(NO_VOTES);
         });
     }
@@ -59,40 +57,40 @@ function Name() {
 
   const navigate = useNavigate();
 
-  const handleVoteNameChange = (i, e) => {
+  const handleVoteNameChange = (i: number, e: any) => {
     const newVotes = [...votes];
     newVotes[i].name = e.target.value;
     setVotes(newVotes);
   };
 
-  const handleVoteArtistChange = (i, e) => {
+  const handleVoteArtistChange = (i: number, e: any) => {
     const newVotes = [...votes];
     newVotes[i].artist = e.target.value;
     setVotes(newVotes);
   };
 
   const handleSave = async () => {
-    if (!data) {
-      const { trigger } = useSWRMutation(
-        "/addVotes",
-        async (_, { arg }) => await pb.collection("votes").create(arg),
-        {
-          onSuccess: async (vote) => {
-          },
-        }
-      );
-      await trigger({ user: user.id, votes });
-    } else {
-      const { trigger } = useSWRMutation(
-        "/updateVotes",
-        async (_, { arg }) => await pb.collection("votes").update(arg),
-        {
-          onSuccess: async () => await mutate(),
-        }
-      );
-      await trigger({ id: data.id, votes });
-    }
-    navigate(`/game/${id}`);
+    // if (!data) {
+    //   const { trigger } = useSWRMutation(
+    //     "/addVotes",
+    //     async (_, { arg }) => await pb.collection("votes").create(arg),
+    //     {
+    //       onSuccess: async (vote) => {
+    //       },
+    //     }
+    //   );
+    //   await trigger({ user: user.id, votes });
+    // } else {
+    //   const { trigger } = useSWRMutation(
+    //     "/updateVotes",
+    //     async (_, { arg }) => await pb.collection("votes").update(arg),
+    //     {
+    //       onSuccess: async () => await mutate(),
+    //     }
+    //   );
+    //   await trigger({ id: data.id, votes });
+    // }
+    // navigate(`/game/${id}`);
   };
 
   const handleGoToGame = () => {

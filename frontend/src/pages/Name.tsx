@@ -6,10 +6,10 @@ function Name() {
   const { id } = useParams<{ id: string }>();
   const [name, setName] = useState("");
   const [validName, setValidName] = useState(true);
-  const { user, updateName, votesDone, guestRegister } = usePocket();
+  const { user, updateName, votesDone, login, guestRegister } = usePocket();
   const navigate = useNavigate();
 
-  const handleNameChange = (e) => {
+  const handleNameChange = (e: any) => {
     setName(e.target.value);
     setValidName(true);
   };
@@ -20,7 +20,7 @@ function Name() {
         updateName(name);
       }
       if (user && user.email) {
-        votesDone().then((done) => {
+        votesDone().then((done: any) => {
           if (done) {
             navigate(`/game/${id}`);
           } else {
@@ -37,8 +37,8 @@ function Name() {
     if (user) {
       updateName(null);
     } else {
-      guestRegister(null).then((login) => {
-        login(login.username, login.password);
+      guestRegister(null).then((login_info: any) => {
+        login(login_info.username, login_info.password);
       });
     }
     navigate(`/game/${id}`);
