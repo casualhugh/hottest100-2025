@@ -45,7 +45,6 @@ function Settings() {
   const handleNameChange = () => {
     navigate(`/name/${id}`);
   };
-
   return (
     <div>
       <div className="max-w-md mx-auto p-4 text-center">
@@ -82,8 +81,9 @@ function Settings() {
           className="bg-black bg-opacity-50 text-white mt-2 w-full p-4 rounded-lg  font-bold"
           onClick={handleNameChange}
         >
-          Change name
+          {`${user.name.length == 0 ? "Join game" : "Change name"}`}
         </button>
+
         {game && game.owner == user.id && (
           <button
             className="bg-black bg-opacity-50 text-white mt-2 w-full p-4 rounded-lg  font-bold"
@@ -104,6 +104,12 @@ function Settings() {
           onClick={toggleGameCodeVisibility}
         >
           {showCode ? "Hide game code" : "Show game code"}
+        </button>
+        <button
+          className="bg-primarybg mt-2 w-full text-black font-bold p-4"
+          onClick={handleGoToGame}
+        >
+          How to play
         </button>
         <button
           className="bg-primarybg mt-2 w-full text-black font-bold p-4"

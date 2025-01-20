@@ -28,7 +28,7 @@ function SignIn() {
 
   const handleConfirmPasswordChange = (e: any) => {
     setConfirmPassword(e.target.value);
-    if (password !== confirmPassword) {
+    if (password === confirmPassword) {
       setValidPassword(true);
     } else {
       setValidPassword(false);
@@ -37,28 +37,25 @@ function SignIn() {
 
   const handleSignIn = async () => {
     if (username.length > 1) {
-      await login(username, password).then((result: any) => {
-        if (result) {
-          if (next_url) {
-            navigate(next_url);
+      await login(username, password)
+        .then((result: any) => {
+          if (result) {
+            if (next_url) {
+              navigate(next_url);
+            } else {
+              navigate("/");
+            }
           } else {
-            navigate("/");
+            setValidName(false);
           }
-        } else {
+        })
+        .catch((error: any) => {
+          console.log(error);
           setValidName(false);
-
-        }
-      }).catch((error: any) => {
-        console.log(error);
-        setValidName(false);
-       });
+        });
     } else {
       setValidName(false);
     }
-  };
-
-  const handleInitialSignUp = () => {
-    setSigningUp(true);
   };
 
   const handleSignUp = async () => {
@@ -95,67 +92,74 @@ function SignIn() {
         <p className="mt-8 text-xl font-bold text-center my-4">
           Enter your username and password
         </p>
-        <div
-          className={`ml-24 mr-24 bg-black bg-opacity-50  ${
-            !validName ? "border border-red-600 border-4" : ""
-          }`}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault(); // Prevents the default form submission
+            signingUp ? handleSignUp() : handleSignIn();
+          }}
+          className="space-y-4"
         >
-          <input
-            value={username || ""}
-            onChange={handleUserNameChange}
-            type="text"
-            placeholder="Enter your username..."
-            className={`py-2 text-center bg-transparent focus:outline-none`}
-          />
-        </div>
-        <div
-          className={`ml-24 mr-24 my-2 bg-black bg-opacity-50  ${
-            !validName ? "border border-red-600 border-4" : ""
-          }`}
-        >
-          <input
-            value={password || ""}
-            onChange={handlePasswordChange}
-            type="password"
-            placeholder="Enter your password..."
-            className={`py-2 text-center bg-transparent focus:outline-none ${
-              !validPassword ? "border border-red-600 border-4" : ""
-            }`}
-          />
-        </div>
-        {signingUp && (
           <div
-            className={`ml-24 mr-24 my-2 bg-black bg-opacity-50  ${
+            className={`ml-24 mr-24 bg-black bg-opacity-50 ${
+              !validName ? "border border-red-600 border-4" : ""
+            }`}
+          >
+            <input
+              value={username || ""}
+              onChange={handleUserNameChange}
+              type="text"
+              placeholder="Enter your username..."
+              autoComplete="username"
+              className="py-2 text-center bg-transparent focus:outline-none w-full"
+            />
+          </div>
+          <div
+            className={`ml-24 mr-24 bg-black bg-opacity-50 ${
               !validPassword ? "border border-red-600 border-4" : ""
             }`}
           >
             <input
-              value={confirmPassword || ""}
-              onChange={handleConfirmPasswordChange}
+              value={password || ""}
+              onChange={handlePasswordChange}
               type="password"
-              placeholder="Confirm your password..."
-              className={`py-2 text-center bg-transparent focus:outline-none`}
+              autoComplete={`${
+                signingUp ? "new-password" : "current-password"
+              }`}
+              placeholder="Enter your password..."
+              className="py-2 text-center bg-transparent focus:outline-none w-full"
             />
           </div>
-        )}
-      </div>
-
-      <div className="ml-8 mr-8 ">
+          {signingUp && (
+            <div
+              className={`ml-24 mr-24 bg-black bg-opacity-50 ${
+                !validPassword ? "border border-red-600 border-4" : ""
+              }`}
+            >
+              <input
+                value={confirmPassword || ""}
+                onChange={handleConfirmPasswordChange}
+                type="password"
+                autoComplete="new-password"
+                placeholder="Confirm your password..."
+                className="py-2 text-center bg-transparent focus:outline-none w-full"
+              />
+            </div>
+          )}
+          <button
+            type="submit"
+            className={`bg-primarybg mt-2 w-full p-4 rounded-lg font-bold text-black`}
+          >
+            {signingUp ? "Sign up" : "Log in"}
+          </button>
+        </form>
         <button
-          className={`${
-            signingUp ? "bg-secondarybg" : "bg-primarybg"
-          } mt-2 w-full p-4 rounded-lg  font-bold text-black`}
-          onClick={signingUp ? () => setSigningUp(false) : handleSignIn}
+          className={`bg-secondarybg
+           mt-2 w-full p-4 rounded-lg font-bold text-black`}
+          onClick={
+            signingUp ? () => setSigningUp(false) : () => setSigningUp(true)
+          }
         >
-          {signingUp ? "Back to login" : "Log in"}
-        </button>
-        <button
-          className={`${
-            signingUp ? "bg-primarybg" : "bg-secondarybg"
-          } mt-2 w-full text-black font-bold p-4`}
-          onClick={signingUp ? handleSignUp : handleInitialSignUp}
-        >
-          Sign up
+          {signingUp ? "Back to login" : "Sign up"}
         </button>
         <button
           className="bg-black bg-opacity-50 mt-2 w-full text-white font-bold p-4"

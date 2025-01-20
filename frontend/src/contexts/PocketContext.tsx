@@ -11,7 +11,7 @@ import { useInterval } from "usehooks-ts";
 import { jwtDecode } from "jwt-decode";
 import { useLocation } from "react-router-dom";
 
-const BASE_URL = "http://127.0.0.1:8000";
+const BASE_URL = "https://api.hottest100game.com/";
 const fiveMinutesInMs = 300000;
 const twoMinutesInMs = 120000;
 interface PocketContextType {
@@ -22,6 +22,7 @@ interface PocketContextType {
   token: any;
   pb: any;
   updateName: any;
+  updateVotes: any;
   guestRegister: any;
   votesDone: any;
   gameExists: any;
@@ -39,6 +40,7 @@ const PocketContext = createContext<PocketContextType>({
   token: "",
   pb: () => {},
   updateName: () => {},
+  updateVotes: () => {},
   guestRegister: () => {},
   votesDone: false,
   gameExists: false,
@@ -46,7 +48,7 @@ const PocketContext = createContext<PocketContextType>({
   leaveGame: () => {},
   game: null,
   showCode: false,
-  toggleShowCode: ()  => {},
+  toggleShowCode: () => {},
 });
 
 function getRandomString(length: number) {
@@ -144,9 +146,25 @@ export const PocketProvider = ({ children }: any) => {
     return await pb.collection("users").authWithPassword(username, password);
   }, []);
 
-  const updateName = useCallback((name: string) => {
+  const updateName = useCallback(async (name: string) => {
     if (user) {
-      pb.collection("users").update(user.id, { name });
+      await pb.collection("users").update(user.id, { name });
+      await refreshSession();
+    }
+  }, []);
+
+  const updateVotes = useCallback((vote_id: string, votes: string[]) => {
+    if (user) {
+      if (vote_id.length > 0) {
+        console.log("Updating", votes);
+        pb.collection("votes").update(vote_id, { votes });
+      } else {
+        console.log("Creating", votes);
+        pb.collection("votes").create({
+          user: user.id,
+          votes,
+        });
+      }
     }
   }, []);
 
@@ -190,7 +208,10 @@ export const PocketProvider = ({ children }: any) => {
     if (!pb.authStore.isValid) return;
     const decoded = jwtDecode(token);
     const tokenExpiration = decoded.exp;
-    const expirationWithBuffer = decoded && decoded?.exp ? (decoded?.exp + fiveMinutesInMs) / 1000 : fiveMinutesInMs;
+    const expirationWithBuffer =
+      decoded && decoded?.exp
+        ? (decoded?.exp + fiveMinutesInMs) / 1000
+        : fiveMinutesInMs;
     if (tokenExpiration && tokenExpiration < expirationWithBuffer) {
       await pb.collection("users").authRefresh();
     }
@@ -207,6 +228,7 @@ export const PocketProvider = ({ children }: any) => {
         token,
         pb,
         updateName,
+        updateVotes,
         guestRegister,
         votesDone,
         gameExists,

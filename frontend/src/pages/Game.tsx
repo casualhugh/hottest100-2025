@@ -5,6 +5,7 @@ import { usePocket } from "@/contexts/PocketContext";
 import useSWR from "swr";
 import { useEffect, useState } from "react";
 import SVGComponent from "@/components/AnimatedLogo";
+import Rules from "@/components/Rule";
 const Game = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Game = () => {
     artist: "",
     rule: "",
   });
-  const { pb, showCode } = usePocket();
+  const { pb, showCode, user } = usePocket();
   const handleSettings = () => {
     navigate(`/settings/${id}`);
   };
@@ -60,7 +61,7 @@ const Game = () => {
         </div>
       )}
       {nowPlaying.rule.length ? (
-        <div className="text-4xl">{nowPlaying.rule}</div>
+        <Rules rule={nowPlaying.rule} />
       ) : (
         <SVGComponent />
       )}
@@ -69,7 +70,7 @@ const Game = () => {
           {nowPlaying.name} - {nowPlaying.artist}
         </h1>
 
-        <p className="text-center  text-gray-300">Hugh played 0</p>
+        <p className="text-center  text-gray-300">{user.name} played 0</p>
       </div>
       <button
         onClick={handleSettings}

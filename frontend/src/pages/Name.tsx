@@ -17,17 +17,20 @@ function Name() {
   const handleEnterName = () => {
     if (name.length > 0) {
       if (user) {
-        updateName(name);
-      }
-      if (user && user.email) {
-        votesDone().then((done: any) => {
-          if (done) {
-            navigate(`/game/${id}`);
-          } else {
-            navigate(`/votes/${id}`);
-          }
+        updateName(name).then(() => {
+          if (user.email) {
+            votesDone().then((done: any) => {
+              if (done) {
+                navigate(`/game/${id}`);
+              } else {
+                navigate(`/votes/${id}`);
+              }
+            });
+          } else navigate(`/question/${id}?name=${encodeURIComponent(name)}`);
         });
-      } else navigate(`/question/${id}?name=${encodeURIComponent(name)}`);
+      } else {
+        navigate(`/question/${id}?name=${encodeURIComponent(name)}`);
+      }
     } else {
       setValidName(false);
     }
@@ -35,13 +38,15 @@ function Name() {
 
   const handleSpectate = () => {
     if (user) {
-      updateName(null);
+      updateName(null).then(() => {
+        navigate(`/game/${id}`);
+      });
     } else {
       guestRegister(null).then((login_info: any) => {
         login(login_info.username, login_info.password);
+        navigate(`/game/${id}`);
       });
     }
-    navigate(`/game/${id}`);
   };
 
   return (
@@ -54,28 +59,36 @@ function Name() {
         <p className="mt-8 text-xl font-bold text-center my-4">
           Enter your name
         </p>
-        <div
-          className={`ml-24 mr-24 bg-black bg-opacity-50  ${
-            !validName ? "border border-red-600 border-4" : ""
-          }`}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault(); // Prevent the default form submission
+            handleEnterName();
+          }}
+          className="space-y-4"
         >
-          <input
-            value={name || ""}
-            onChange={handleNameChange}
-            type="text"
-            placeholder="Enter name..."
-            className={`py-2 text-center bg-transparent focus:outline-none`}
-          />
-        </div>
+          <div
+            className={`ml-24 mr-24 bg-black bg-opacity-50 ${
+              !validName ? "border border-red-600 border-4" : ""
+            }`}
+          >
+            <input
+              value={name || ""}
+              onChange={handleNameChange}
+              type="text"
+              placeholder="Enter name..."
+              className="py-2 text-center bg-transparent focus:outline-none w-full"
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-primarybg mt-2 w-full p-4 rounded-lg font-bold text-black"
+          >
+            Enter
+          </button>
+        </form>
       </div>
 
-      <div className="ml-8 mr-8 ">
-        <button
-          className="bg-primarybg  mt-2 w-full p-4 rounded-lg  font-bold text-black"
-          onClick={handleEnterName}
-        >
-          Enter
-        </button>
+      <div className="ml-8 mr-8">
         <button
           className="bg-secondarybg mt-2 w-full text-black font-bold p-4"
           onClick={handleSpectate}

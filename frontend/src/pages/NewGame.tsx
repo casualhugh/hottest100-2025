@@ -69,7 +69,9 @@ function NewGame() {
               });
           });
         })
-        .catch(() => {});
+        .catch((e: any) => {
+          console.log("NOT WORKING", e);
+        });
     } catch (e) {}
   }, [user]);
   return <div>New Game</div>;

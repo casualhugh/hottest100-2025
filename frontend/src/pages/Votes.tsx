@@ -2,95 +2,106 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { usePocket } from "@/contexts/PocketContext";
+import AutoCompleteInput from "@/components/AutoCompleteInput";
 
 const NO_VOTES = [
-  { name: "", artist: "" },
-  { name: "", artist: "" },
-  { name: "", artist: "" },
-  { name: "", artist: "" },
-  { name: "", artist: "" },
-  { name: "", artist: "" },
-  { name: "", artist: "" },
-  { name: "", artist: "" },
-  { name: "", artist: "" },
-  { name: "", artist: "" },
+  { name: "", artist: "", id: "" },
+  { name: "", artist: "", id: "" },
+  { name: "", artist: "", id: "" },
+  { name: "", artist: "", id: "" },
+  { name: "", artist: "", id: "" },
+  { name: "", artist: "", id: "" },
+  { name: "", artist: "", id: "" },
+  { name: "", artist: "", id: "" },
+  { name: "", artist: "", id: "" },
+  { name: "", artist: "", id: "" },
 ];
 
 function Name() {
   const { id } = useParams<{ id: string }>();
-  const { user, game, pb } = usePocket();
+  const { user, game, pb, updateVotes } = usePocket();
+  const [songs, setSongs] = useState([]);
 
-  const [votes, setVotes] = useState(NO_VOTES);
+  const [votes, setVotes] = useState([...NO_VOTES]);
+  const [votes_id, setVoteId] = useState("");
 
   const query = new URLSearchParams(window.location.search);
   const alt_user_id = query.get("user_id");
 
-  useEffect(() => {
-    const user_id =
-      alt_user_id &&
-      game &&
-      game.owner == user.id &&
-      game?.players &&
-      game?.players.indexOf(alt_user_id) != -1
-        ? alt_user_id
-        : user?.id;
-
+  const loadVotes = () => {
     if (user && game) {
+      const user_id =
+        alt_user_id &&
+        game &&
+        game.owner == user.id &&
+        game?.players &&
+        game?.players.indexOf(alt_user_id) != -1
+          ? alt_user_id
+          : user?.id;
       pb.collection("votes")
         .getFirstListItem(`user="${user_id}"`, { expand: "votes" })
         .then((res: any) => {
-          if (res) {
+          console.log(res, votes);
+          if (res && res?.expand?.votes) {
             const newVotes = [...votes];
             res.expand.votes.forEach((vote: any, i: number) => {
+              console.log("Vote", vote);
               newVotes[i] = { ...vote };
             });
             setVotes(newVotes);
           } else {
-            setVotes(NO_VOTES);
+            setVotes([...NO_VOTES]);
+          }
+          if (res?.id) {
+            setVoteId(res.id);
           }
         })
-        .catch(() => {
-          setVotes(NO_VOTES);
+        .catch((e: any) => {
+          console.log("No voters", e);
+          setVotes([...NO_VOTES]);
         });
     }
+  };
+
+  useEffect(() => {
+    const loadJSON = async () => {
+      try {
+        const songs_json: any = await import("../assets/songs.json"); // Adjust the path to your JSON file
+        setSongs(songs_json.default);
+      } catch (error) {
+        console.error("Error loading songs JSON:", error);
+      }
+    };
+    loadJSON();
+
+    loadVotes();
   }, [user, game]);
 
   const navigate = useNavigate();
 
-  const handleVoteNameChange = (i: number, e: any) => {
+  const handleUpdateVote = (i: number, input: any) => {
     const newVotes = [...votes];
-    newVotes[i].name = e.target.value;
+    newVotes[i] = input;
     setVotes(newVotes);
   };
 
-  const handleVoteArtistChange = (i: number, e: any) => {
+  const handleVoteNameChange = (i: number, input: string) => {
     const newVotes = [...votes];
-    newVotes[i].artist = e.target.value;
+    newVotes[i].name = input;
+    setVotes(newVotes);
+  };
+
+  const handleVoteArtistChange = (i: number, input: string) => {
+    const newVotes = [...votes];
+    newVotes[i].artist = input;
     setVotes(newVotes);
   };
 
   const handleSave = async () => {
-    // if (!data) {
-    //   const { trigger } = useSWRMutation(
-    //     "/addVotes",
-    //     async (_, { arg }) => await pb.collection("votes").create(arg),
-    //     {
-    //       onSuccess: async (vote) => {
-    //       },
-    //     }
-    //   );
-    //   await trigger({ user: user.id, votes });
-    // } else {
-    //   const { trigger } = useSWRMutation(
-    //     "/updateVotes",
-    //     async (_, { arg }) => await pb.collection("votes").update(arg),
-    //     {
-    //       onSuccess: async () => await mutate(),
-    //     }
-    //   );
-    //   await trigger({ id: data.id, votes });
-    // }
-    // navigate(`/game/${id}`);
+    const update = votes.filter((v: any) => v.id !== "").map((v: any) => v.id);
+
+    await updateVotes(votes_id, update);
+    loadVotes();
   };
 
   const handleGoToGame = () => {
@@ -103,25 +114,19 @@ function Name() {
         <p className="mt-8 text-xl font-bold text-center my-4">
           Enter your votes
         </p>
+        <p>Only the official hottest 100 list is available for voting.</p>
         {votes.map((vote, index) => (
-          <div key={`${index}`}>
-            <input
-              key={`name-${index}`}
-              value={vote.name || ""}
-              onChange={(e) => handleVoteNameChange(index, e)}
-              type="text"
-              placeholder={`${index + 1}. Enter song name... `}
-              className={`w-50 mt-1 py-2 text-center bg-black bg-opacity-50  focus:outline-none`}
-            />
-            <input
-              key={`artist-${index}`}
-              value={vote.artist || ""}
-              onChange={(e) => handleVoteArtistChange(index, e)}
-              type="text"
-              placeholder={`${index + 1}. Enter artist... `}
-              className={`w-50 ml-2 mt-1 py-2 text-center bg-black bg-opacity-50  focus:outline-none`}
-            />
-          </div>
+          <AutoCompleteInput
+            key={`${index}`}
+            songs={songs}
+            hasId={votes[index].id.length > 0}
+            votes={votes}
+            songInput={vote.name}
+            updateVote={(input: any) => handleUpdateVote(index, input)}
+            setSongInput={(e: any) => handleVoteNameChange(index, e)}
+            artistInput={vote.artist}
+            setArtistInput={(e: any) => handleVoteArtistChange(index, e)}
+          />
         ))}
       </div>
 
