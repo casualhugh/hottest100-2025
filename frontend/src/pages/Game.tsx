@@ -6,9 +6,11 @@ import useSWR from "swr";
 import { useEffect, useState } from "react";
 import SVGComponent from "@/components/AnimatedLogo";
 import Rules from "@/components/Rule";
+import CountDown from "@/components/CountDown";
 const Game = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [countDownStarted, setCountDownStarted] = useState(false);
   const [nowPlaying, setNowPlaying] = useState({
     name: "Loading...",
     artist: "",
@@ -60,10 +62,17 @@ const Game = () => {
           Game code: {`${id}`}
         </div>
       )}
-      {nowPlaying.rule.length ? (
-        <Rules rule={nowPlaying.rule} />
+      {countDownStarted ? (
+        nowPlaying.rule.length ? (
+          <Rules rule={nowPlaying.rule} />
+        ) : (
+          <SVGComponent />
+        )
       ) : (
-        <SVGComponent />
+        <div className="flex flex-col items-center justify-center">
+          <SVGComponent />
+          <CountDown setTimerDone={setCountDownStarted} />
+        </div>
       )}
       <div className="fixed bottom-0 left-0 w-full bg-black/50">
         <h1 className="text-center font-bold text-lg">

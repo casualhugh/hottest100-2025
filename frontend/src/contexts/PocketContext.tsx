@@ -153,20 +153,23 @@ export const PocketProvider = ({ children }: any) => {
     }
   }, []);
 
-  const updateVotes = useCallback((vote_id: string, votes: string[]) => {
-    if (user) {
-      if (vote_id.length > 0) {
-        console.log("Updating", votes);
-        pb.collection("votes").update(vote_id, { votes });
-      } else {
-        console.log("Creating", votes);
-        pb.collection("votes").create({
-          user: user.id,
-          votes,
-        });
+  const updateVotes = useCallback(
+    async (user_id: string, vote_id: string, votes: string[]) => {
+      if (user) {
+        if (vote_id.length > 0) {
+          console.log("Updating", vote_id, votes);
+          return await pb.collection("votes").update(vote_id, { votes });
+        } else {
+          console.log("Creating", votes);
+          return await pb.collection("votes").create({
+            user: user_id,
+            votes,
+          });
+        }
       }
-    }
-  }, []);
+    },
+    []
+  );
 
   const logout = useCallback(() => {
     pb.authStore.clear();

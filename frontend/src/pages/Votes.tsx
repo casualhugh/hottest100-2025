@@ -27,17 +27,16 @@ function Name() {
 
   const query = new URLSearchParams(window.location.search);
   const alt_user_id = query.get("user_id");
-
+  const user_id =
+    alt_user_id &&
+    game &&
+    game.owner == user.id &&
+    game?.players &&
+    game?.players.indexOf(alt_user_id) != -1
+      ? alt_user_id
+      : user?.id;
   const loadVotes = () => {
     if (user && game) {
-      const user_id =
-        alt_user_id &&
-        game &&
-        game.owner == user.id &&
-        game?.players &&
-        game?.players.indexOf(alt_user_id) != -1
-          ? alt_user_id
-          : user?.id;
       pb.collection("votes")
         .getFirstListItem(`user="${user_id}"`, { expand: "votes" })
         .then((res: any) => {
@@ -54,11 +53,15 @@ function Name() {
           }
           if (res?.id) {
             setVoteId(res.id);
+          } else {
+            console.log("SETTING EMPTY");
+            setVoteId("");
           }
         })
         .catch((e: any) => {
           console.log("No voters", e);
           setVotes([...NO_VOTES]);
+          setVoteId("");
         });
     }
   };
@@ -100,7 +103,7 @@ function Name() {
   const handleSave = async () => {
     const update = votes.filter((v: any) => v.id !== "").map((v: any) => v.id);
 
-    await updateVotes(votes_id, update);
+    await updateVotes(user_id, votes_id, update);
     loadVotes();
   };
 

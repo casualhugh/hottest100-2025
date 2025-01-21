@@ -1,5 +1,6 @@
+import CountDown from "@/components/CountDown";
 import { usePocket } from "@/contexts/PocketContext";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Welcome() {
@@ -50,41 +51,6 @@ function Welcome() {
     else navigate("/login/?next=/new/");
   };
 
-  const targetDate = new Date("2025-01-25T02:00:00Z");
-  const calculateTimeLeft = () => {
-    const now = new Date();
-    const nowTimestamp = now.getTime(); // Get timestamp of current date/time
-    const targetTimestamp = targetDate.getTime(); // Get timestamp of target date
-
-    const difference = Math.abs(targetTimestamp - nowTimestamp); // Calculate the absolute difference in milliseconds
-
-    if (difference <= 0) {
-      return {
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-      };
-    }
-
-    return {
-      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((difference / (1000 * 60)) % 60),
-      seconds: Math.floor((difference / 1000) % 60),
-    };
-  };
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => clearInterval(timer); // Cleanup on unmount
-  }, []);
-
   return (
     <div>
       <div className="max-w-md mx-auto p-4 text-center">
@@ -97,32 +63,7 @@ function Welcome() {
           one. If you're hosting, you'll be given a unique code that you can
           share with friends.
         </p>
-        <div className="flex justify-center space-x-4 text-2xl font-medium">
-          <div className="flex flex-col items-center">
-            <span className="text-5xl font-bold text-white">
-              {timeLeft.days}
-            </span>
-            <span>Days</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-5xl font-bold text-white">
-              {timeLeft.hours}
-            </span>
-            <span>Hours</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-5xl font-bold text-white">
-              {timeLeft.minutes}
-            </span>
-            <span>Minutes</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-5xl font-bold text-white">
-              {timeLeft.seconds}
-            </span>
-            <span>Seconds</span>
-          </div>
-        </div>
+        <CountDown setTimerDone={() => {}} />
         <p className="mt-8">Enter your game code</p>
         <div
           className={`ml-24 mr-24 bg-black bg-opacity-50  ${

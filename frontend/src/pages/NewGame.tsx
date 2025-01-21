@@ -44,29 +44,43 @@ function NewGame() {
               resultList.items.length > 0
                 ? resultList.items[0].game_code
                 : new_game_code;
-            pb.collection("games")
-              .create({
-                owner: user.id,
-                players: [user.id],
-                game_code: game_code,
-              })
-              .then(() => {
-                if (!user?.name) {
-                  navigate(`/name/${game_code}`);
-                  return;
-                }
-                votesDone().then((done: any) => {
-                  if (done) {
-                    navigate(`/game/${game_code}`);
-                  } else {
-                    navigate(`/votes/${game_code}`);
-                  }
-                });
-              })
-              .catch(() => {
-                navigate("/");
+            if (resultList.items.length > 0) {
+              if (!user?.name) {
+                navigate(`/name/${game_code}`);
                 return;
+              }
+              votesDone().then((done: any) => {
+                if (done) {
+                  navigate(`/game/${game_code}`);
+                } else {
+                  navigate(`/votes/${game_code}`);
+                }
               });
+            } else {
+              pb.collection("games")
+                .create({
+                  owner: user.id,
+                  players: [user.id],
+                  game_code: game_code,
+                })
+                .then(() => {
+                  if (!user?.name) {
+                    navigate(`/name/${game_code}`);
+                    return;
+                  }
+                  votesDone().then((done: any) => {
+                    if (done) {
+                      navigate(`/game/${game_code}`);
+                    } else {
+                      navigate(`/votes/${game_code}`);
+                    }
+                  });
+                })
+                .catch(() => {
+                  navigate("/");
+                  return;
+                });
+            }
           });
         })
         .catch((e: any) => {
