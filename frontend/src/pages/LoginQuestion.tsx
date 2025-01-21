@@ -23,16 +23,25 @@ function LoginQuestion() {
   const handleGoToVotes = () => {
     if (!user) {
       guestRegister(name).then((login_info: any) => {
-        login(login_info.username, login_info.password);
+        login(login_info.username, login_info.password).then(() => {
+          votesDone().then((done: any) => {
+            if (done) {
+              navigate(`/game/${id}`);
+            } else {
+              navigate(`/votes/${id}`);
+            }
+          });
+        });
+      });
+    } else {
+      votesDone().then((done: any) => {
+        if (done) {
+          navigate(`/game/${id}`);
+        } else {
+          navigate(`/votes/${id}`);
+        }
       });
     }
-    votesDone().then((done: any) => {
-      if (done) {
-        navigate(`/game/${id}`);
-      } else {
-        navigate(`/votes/${id}`);
-      }
-    });
   };
 
   return (
