@@ -55,6 +55,9 @@ const Game = () => {
     }
   }, [data]);
 
+  function capitalizeFirstLetter(val) {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+  }
   return (
     <>
       {showCode && (
@@ -79,7 +82,9 @@ const Game = () => {
           {nowPlaying.name} - {nowPlaying.artist}
         </h1>
 
-        <p className="text-center  text-gray-300">{user.name} played 0</p>
+        <p className="text-center  text-gray-300">
+          {capitalizeFirstLetter(user.name)} votes played 0
+        </p>
       </div>
       <button
         onClick={handleSettings}
