@@ -16,7 +16,7 @@ const Game = () => {
     artist: "",
     rule: "",
   });
-  const { pb, showCode, user } = usePocket();
+  const { pb, showCode, game } = usePocket();
   const handleSettings = () => {
     navigate(`/settings/${id}`);
   };
@@ -54,10 +54,15 @@ const Game = () => {
       );
     }
   }, [data]);
-
-  function capitalizeFirstLetter(val) {
+  function capitalizeFirstLetter(val: string) {
     return String(val).charAt(0).toUpperCase() + String(val).slice(1);
   }
+  const player_names = game?.expand?.players
+    ? game.expand.players
+        .map((player: any) => capitalizeFirstLetter(player.name))
+        .filter((player_name: string) => player_name.length > 0)
+    : [];
+  console.log(player_names);
   return (
     <>
       {showCode && (
@@ -83,7 +88,9 @@ const Game = () => {
         </h1>
 
         <p className="text-center  text-gray-300">
-          {capitalizeFirstLetter(user.name)} votes played 0
+          {player_names.length > 0
+            ? `${player_names.join(" votes played 0  | ")} votes played 0`
+            : "Waiting for players..."}
         </p>
       </div>
       <button

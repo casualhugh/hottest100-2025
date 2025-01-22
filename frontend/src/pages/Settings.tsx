@@ -12,6 +12,10 @@ function Settings() {
     navigate(`/game/${id}`);
   };
 
+  const handleGoToHowToPlay = () => {
+    navigate(`/info/${id}`);
+  };
+
   const handleGoToVotes = () => {
     navigate(`/votes/${id}`);
   };
@@ -107,7 +111,7 @@ function Settings() {
         </button>
         <button
           className="bg-primarybg mt-2 w-full text-black font-bold p-4"
-          onClick={handleGoToGame}
+          onClick={handleGoToHowToPlay}
         >
           How to play
         </button>

@@ -18,6 +18,7 @@ import MainLayout from "@/layouts/MainLayout";
 import { PocketProvider } from "@/contexts/PocketContext";
 import { RequireAuth } from "@/components/RequireAuth";
 import { RequireInGame } from "@/components/RequireInGame";
+import HowToPlay from "@/pages/HowToPlay";
 
 const AppRoutes: React.FC = () => (
   <Router>
@@ -31,7 +32,7 @@ const AppRoutes: React.FC = () => (
           <Route path="/question/:id" element={<LoginQuestion />} />
           <Route element={<RequireAuth />}>
             <Route path="/new/" element={<NewGame />} />
-
+            <Route path="/info/:id" element={<HowToPlay />} />
             <Route element={<RequireInGame />}>
               <Route path="/votes/:id" element={<Votes />} />
               <Route path="/settings/:id" element={<Settings />} />
