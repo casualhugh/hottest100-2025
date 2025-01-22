@@ -78,7 +78,7 @@ export const PocketProvider = ({ children }: any) => {
   const toggleShowCode = () => {
     setShowCode(!showCode);
   };
-  const getVotes = (players) => {
+  const getVotes = (players: any) => {
     console.log(players);
     const filter = `user = "` + players.join(`" || user = "`) + `"`;
     console.log(filter);
@@ -104,7 +104,7 @@ export const PocketProvider = ({ children }: any) => {
           })
           .then((resultList) => {
             if (resultList) {
-              getVotes(resultList.players);
+              // getVotes(resultList.players);
               setGame(resultList);
               pb.collection("games").subscribe(
                 resultList.id,
