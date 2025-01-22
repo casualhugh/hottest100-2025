@@ -1,24 +1,24 @@
-function cleanString(inputString) {
-  // Normalize accented characters to their non-accented counterparts
-  const normalized = inputString.normalize("NFD");
-  const noAccents = normalized
-    .split("")
-    .filter((char) => !char.match(/[\u0300-\u036f]/)) // Remove diacritical marks
-    .join("");
-
-  // Remove non-alphanumeric characters
-  const cleaned = noAccents.replace(/[^a-zA-Z0-9]/g, "");
-
-  // Return the original string (lowercased) if cleaned string is too short
-  if (cleaned.length < 2) {
-    return inputString.toLowerCase();
-  }
-
-  return cleaned.toLowerCase();
-}
-
 // // prints "Hello!" every 2 minutes
 cronAdd("nowplaying", "*/2 * * * *", () => {
+  const cleanString = (inputString) => {
+    // Normalize accented characters to their non-accented counterparts
+    const normalized = inputString.normalize("NFD");
+    const noAccents = normalized
+      .split("")
+      .filter((char) => !char.match(/[\u0300-\u036f]/)) // Remove diacritical marks
+      .join("");
+
+    // Remove non-alphanumeric characters
+    const cleaned = noAccents.replace(/[^a-zA-Z0-9]/g, "");
+
+    // Return the original string (lowercased) if cleaned string is too short
+    if (cleaned.length < 2) {
+      return inputString.toLowerCase();
+    }
+
+    return cleaned.toLowerCase();
+  };
+
   try {
     // Fetch Currently playing song
     const res = $http.send({
