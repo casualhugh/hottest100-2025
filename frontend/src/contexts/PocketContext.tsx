@@ -78,6 +78,22 @@ export const PocketProvider = ({ children }: any) => {
   const toggleShowCode = () => {
     setShowCode(!showCode);
   };
+  const getVotes = (players) => {
+    console.log(players);
+    const filter = `user = "` + players.join(`" || user = "`) + `"`;
+    console.log(filter);
+    pb.collection(`votes`)
+      .getList(1, 100, {
+        filter,
+        // expand: "players",
+      })
+      .then((resultList) => {
+        console.log(resultList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const getGame = () => {
     if (id && id.length > 0) {
@@ -88,6 +104,7 @@ export const PocketProvider = ({ children }: any) => {
           })
           .then((resultList) => {
             if (resultList) {
+              getVotes(resultList.players);
               setGame(resultList);
               pb.collection("games").subscribe(
                 resultList.id,
@@ -119,7 +136,7 @@ export const PocketProvider = ({ children }: any) => {
   const register = useCallback(
     async (name: string | null, username: string, password: string) => {
       await pb.collection("users").create({
-        name,
+        name: name ? name : username,
         username,
         email: `${username}@hottest100game.com`,
         password,
