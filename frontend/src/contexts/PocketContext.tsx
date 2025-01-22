@@ -78,22 +78,22 @@ export const PocketProvider = ({ children }: any) => {
   const toggleShowCode = () => {
     setShowCode(!showCode);
   };
-  const getVotes = (players: any) => {
-    console.log(players);
-    const filter = `user = "` + players.join(`" || user = "`) + `"`;
-    console.log(filter);
-    pb.collection(`votes`)
-      .getList(1, 100, {
-        filter,
-        // expand: "players",
-      })
-      .then((resultList) => {
-        console.log(resultList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const getVotes = (players: any) => {
+  //   console.log(players);
+  //   const filter = `user = "` + players.join(`" || user = "`) + `"`;
+  //   console.log(filter);
+  //   pb.collection(`votes`)
+  //     .getList(1, 100, {
+  //       filter,
+  //       // expand: "players",
+  //     })
+  //     .then((resultList) => {
+  //       console.log(resultList);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   const getGame = () => {
     if (id && id.length > 0) {
