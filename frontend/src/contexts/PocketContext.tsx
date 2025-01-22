@@ -78,22 +78,25 @@ export const PocketProvider = ({ children }: any) => {
   const toggleShowCode = () => {
     setShowCode(!showCode);
   };
-  // const getVotes = (players: any) => {
-  //   console.log(players);
-  //   const filter = `user = "` + players.join(`" || user = "`) + `"`;
-  //   console.log(filter);
-  //   pb.collection(`votes`)
-  //     .getList(1, 100, {
-  //       filter,
-  //       // expand: "players",
-  //     })
-  //     .then((resultList) => {
-  //       console.log(resultList);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  const getVotes = async (players: any) => {
+    const filter = `user.id = "` + players.join(`" || user.id = "`) + `"`;
+    return pb
+      .collection(`votes`)
+      .getList(1, 100, {
+        filter,
+        expand: "user",
+      })
+      .then((resultList) => {
+        if (resultList && resultList?.items) {
+          return resultList.items;
+        }
+        return [];
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  console.log("GAME", game);
 
   const getGame = () => {
     if (id && id.length > 0) {
@@ -104,22 +107,47 @@ export const PocketProvider = ({ children }: any) => {
           })
           .then((resultList) => {
             if (resultList) {
-              // getVotes(resultList.players);
-              setGame(resultList);
+              getVotes(resultList.players).then((votes) => {
+                const game_data = { ...resultList, votes };
+                setGame(game_data);
+              });
+
               pb.collection("games").subscribe(
                 resultList.id,
                 function (e) {
                   if (e.action === "update") {
-                    setGame(e.record);
+                    getVotes(resultList.players).then((votes) => {
+                      const game_data = { ...e.record, votes };
+                      setGame(game_data);
+                    });
                   }
                 },
                 {
                   expand: "players",
                 }
               );
+
+              pb.collection("votes").subscribe(
+                "*",
+                function (e) {
+                  if (e.action === "update" || e.action === "create") {
+                    getVotes(resultList.players).then((votes) => {
+                      const game_data = { ...e.record, votes };
+                      setGame(game_data);
+                    });
+                  }
+                },
+                {
+                  expand: "players",
+                }
+              );
+            } else {
+              console.log(id);
             }
           })
-          .catch(() => {});
+          .catch((e) => {
+            console.log(e);
+          });
       } catch (e) {}
     }
   };
