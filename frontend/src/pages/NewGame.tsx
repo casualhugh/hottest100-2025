@@ -83,8 +83,7 @@ function NewGame() {
             }
           });
         })
-        .catch((e: any) => {
-          console.log("NOT WORKING", e);
+        .catch(() => {
         });
     } catch (e) {}
   }, [user]);

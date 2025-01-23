@@ -96,7 +96,6 @@ export const PocketProvider = ({ children }: any) => {
         console.log(error);
       });
   };
-  console.log("GAME", game);
 
   const getGame = () => {
     if (id && id.length > 0) {
@@ -141,8 +140,6 @@ export const PocketProvider = ({ children }: any) => {
                   expand: "players",
                 }
               );
-            } else {
-              console.log(id);
             }
           })
           .catch((e) => {
@@ -211,10 +208,8 @@ export const PocketProvider = ({ children }: any) => {
     async (user_id: string, vote_id: string, votes: string[]) => {
       if (user) {
         if (vote_id.length > 0) {
-          console.log("Updating", vote_id, votes);
           return await pb.collection("votes").update(vote_id, { votes });
         } else {
-          console.log("Creating", votes);
           return await pb.collection("votes").create({
             user: user_id,
             votes,

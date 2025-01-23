@@ -36,9 +36,9 @@ function HowToPlay() {
             chug – be ready for anything!
           </li>
           <li>
-            <strong>Got Your Esky Packed?: </strong> If your song plays, it's
-            your turn in the spotlight, will you have to drink or do a daring
-            challenge?
+            <strong>Got Your Esky Packed?: </strong> If a song you voted for
+            plays, it's your turn in the spotlight, the game will assign you a
+            rule to follow!
           </li>
           <li>
             <strong>No Whingers!:</strong> Mutter "should've been higher", and

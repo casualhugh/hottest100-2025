@@ -55,7 +55,7 @@ function Settings() {
         <h1 className="text-3xl font-bold text-center my-4">
           Hottest 100 2025 the game
         </h1>
-        <p className="">Game Code: {`${id}`}</p>
+        {showCode && (<p className="">Game Code: {`${id}`}</p>)}
       </div>
 
       <div className="ml-8 mr-8 ">

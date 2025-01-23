@@ -1,6 +1,6 @@
 import CountDown from "@/components/CountDown";
 import { usePocket } from "@/contexts/PocketContext";
-import {  useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Welcome() {
@@ -63,7 +63,7 @@ function Welcome() {
           one. If you're hosting, you'll be given a unique code that you can
           share with friends.
         </p>
-        <CountDown setTimerDone={() => {}} />
+        <CountDown />
         <p className="mt-8">Enter your game code</p>
         <div
           className={`ml-24 mr-24 bg-black bg-opacity-50  ${

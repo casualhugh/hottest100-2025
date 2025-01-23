@@ -40,11 +40,9 @@ function Name() {
       pb.collection("votes")
         .getFirstListItem(`user="${user_id}"`, { expand: "votes" })
         .then((res: any) => {
-          console.log(res, votes);
           if (res && res?.expand?.votes) {
             const newVotes = [...votes];
             res.expand.votes.forEach((vote: any, i: number) => {
-              console.log("Vote", vote);
               newVotes[i] = { ...vote };
             });
             setVotes(newVotes);
@@ -54,12 +52,10 @@ function Name() {
           if (res?.id) {
             setVoteId(res.id);
           } else {
-            console.log("SETTING EMPTY");
             setVoteId("");
           }
         })
-        .catch((e: any) => {
-          console.log("No voters", e);
+        .catch(() => {
           setVotes([...NO_VOTES]);
           setVoteId("");
         });

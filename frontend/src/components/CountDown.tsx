@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function CountDown({ setTimerDone }: { setTimerDone: any }) {
+function CountDown() {
   const targetDate = new Date("2025-01-25T01:00:00Z");
   const calculateTimeLeft = () => {
     const now = new Date();
@@ -9,7 +9,6 @@ function CountDown({ setTimerDone }: { setTimerDone: any }) {
 
     const difference = targetTimestamp - nowTimestamp;
     if (difference <= 0) {
-      setTimerDone(true);
       return {
         days: 0,
         hours: 0,
