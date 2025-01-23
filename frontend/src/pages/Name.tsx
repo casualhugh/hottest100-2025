@@ -43,8 +43,9 @@ function Name() {
       });
     } else {
       guestRegister(null).then((login_info: any) => {
-        login(login_info.username, login_info.password);
-        navigate(`/game/${id}`);
+        login(login_info.username, login_info.password).then(() => {
+          navigate(`/game/${id}`);
+        });
       });
     }
   };

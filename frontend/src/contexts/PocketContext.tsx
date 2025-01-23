@@ -188,7 +188,16 @@ export const PocketProvider = ({ children }: any) => {
   }, []);
 
   const login = useCallback(async (username: string, password: string) => {
-    return await pb.collection("users").authWithPassword(username, password);
+    const result = await pb
+      .collection("users")
+      .authWithPassword(username, password);
+    if (result?.record) {
+      setUser(result.record);
+    }
+    if (result?.token) {
+      setToken(result.token);
+    }
+    return result;
   }, []);
 
   const updateName = useCallback(async (name: string) => {
@@ -218,6 +227,7 @@ export const PocketProvider = ({ children }: any) => {
 
   const logout = useCallback(() => {
     pb.authStore.clear();
+    setUser(null);
   }, []);
 
   const votesDone = useCallback(async () => {
