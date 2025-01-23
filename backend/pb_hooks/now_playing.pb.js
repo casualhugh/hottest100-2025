@@ -48,6 +48,17 @@ cronAdd("nowplaying", "*/2 * * * *", () => {
     const playedCollection = $app.findCollectionByNameOrId("played");
     const songsCollection = $app.findCollectionByNameOrId("songs");
     const votesCollection = $app.findCollectionByNameOrId("votes");
+    const currentTime = new Date();
+    currentTime.setHours(currentTime.getHours() - 8);
+    const year = currentTime.getFullYear();
+    const month = String(currentTime.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+    const day = String(currentTime.getDate()).padStart(2, "0");
+
+    const hours = String(currentTime.getHours()).padStart(2, "0");
+    const minutes = String(currentTime.getMinutes()).padStart(2, "0");
+    const seconds = String(currentTime.getSeconds()).padStart(2, "0");
+
+    const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
     // Check if the song exists in the "songs" collection
     let songRecord;
@@ -80,22 +91,39 @@ cronAdd("nowplaying", "*/2 * * * *", () => {
     // Check if the song is already in the "played" collection
     const songId = songRecord.get("id");
     let playedRecord;
+    let lastPlayedPosition = -1;
     try {
       playedRecord = $app.findFirstRecordByFilter(
         "played",
-        "song = {:song_id}",
-        { song_id: songId }
+        `song = {:song_id} && played_at >= {:past_time}`,
+        { song_id: songId, past_time: formattedTime }
       );
-    } catch {
-      console.log(`Song "${title}" by "${artist}" has not been played yet.`);
+    } catch (e) {
+      console.log(`Song "${title}" by "${artist}" has not been played yet.`, e);
     }
 
     if (playedRecord?.id) {
       console.log(`Song "${title}" by "${artist}" has already been played.`);
       return;
     }
+
+    const lastPlayed = $app.findRecordsByFilter(
+      "played",
+      `played_at >= {:past_time}`,
+      "-played_at",
+      1,
+      0,
+      { past_time: formattedTime }
+    );
+    if (lastPlayed?.length > 0) {
+      lastPlayedPosition = lastPlayed[0].get("countdown_position");
+    }
+
     let newPlayed = new Record(playedCollection);
     newPlayed.set("song", songId);
+    if (lastPlayedPosition > 0) {
+      newPlayed.set("countdown_position", lastPlayedPosition - 1);
+    }
     $app.save(newPlayed);
     console.log(`Added "${title}" by "${artist}" to the played collection.`);
     playedRecord = $app.findFirstRecordByFilter("played", "song = {:song_id}", {
