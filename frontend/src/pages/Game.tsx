@@ -8,34 +8,34 @@ import SVGComponent from "@/components/AnimatedLogo";
 import Rules from "@/components/Rule";
 import CountDown from "@/components/CountDown";
 
-const individual = [
-  "is now simon says eveyone must do what they say only if they preceed it with simon says until the song finishes otherwise drink",
-  "for 1 minute must answer rapid-fire questions from others. If they hesitate or answer incorrectly, they drink.",
-  "must do a truth or dare decided on by everyone else or drink",
-  "is now banned from saying a word decided on by everyone else for the next 10 songs if they say it they drink",
-  "must sing the chrous of this song others count how many times they mess up the lyrics and they drink that many times",
-  "must guess the time without looking at a clock and drink however many minutes they are away",
-  "must guess the month this song was release on and drink however many months they are away (check spotify)",
-  "gets to dish out a drink for every person in your party",
-  "voted for this so must take a drink for every letter in the songs name",
-  "isn't allowed to move until the song finishes",
-  "must dance until the song is over",
-];
+// const individual = [
+//   "is now simon says eveyone must do what they say only if they preceed it with simon says until the song finishes otherwise drink",
+//   "for 1 minute must answer rapid-fire questions from others. If they hesitate or answer incorrectly, they drink.",
+//   "must do a truth or dare decided on by everyone else or drink",
+//   "is now banned from saying a word decided on by everyone else for the next 10 songs if they say it they drink",
+//   "must sing the chrous of this song others count how many times they mess up the lyrics and they drink that many times",
+//   "must guess the time without looking at a clock and drink however many minutes they are away",
+//   "must guess the month this song was release on and drink however many months they are away (check spotify)",
+//   "gets to dish out a drink for every person in your party",
+//   "voted for this so must take a drink for every letter in the songs name",
+//   "isn't allowed to move until the song finishes",
+//   "must dance until the song is over",
+// ];
 
-const group = [
-  "are now simon says eveyone must do what they say only if they preceed it with simon says until the song finishes otherwise drink",
-  "for 1 minute must answer rapid-fire questions from others. If they hesitate or answer incorrectly, they drink.",
-  "must do a truth or dare decided on by everyone else or drink",
-  "are now banned from saying a word decided on by everyone else for the next 10 songs if they say it they drink",
-  "must sing this song others count how many times they mess up the lyrics",
-  "must guess the time without looking at a clock and drink however many minutes they are away",
-  "must guess the month this song was release on and drink however many months they are away (check spotify)",
-  "get to dish out a drink for every person in your party",
-  "are now drinking buddies and must drink when the others drink for the next 5 songs",
-  "voted for this so must take a drink for every letter in the songs name",
-  "aren't allowed to move until the song finishes",
-  "must dance until the song is over",
-];
+// const group = [
+//   "are now simon says eveyone must do what they say only if they preceed it with simon says until the song finishes otherwise drink",
+//   "for 1 minute must answer rapid-fire questions from others. If they hesitate or answer incorrectly, they drink.",
+//   "must do a truth or dare decided on by everyone else or drink",
+//   "are now banned from saying a word decided on by everyone else for the next 10 songs if they say it they drink",
+//   "must sing this song others count how many times they mess up the lyrics",
+//   "must guess the time without looking at a clock and drink however many minutes they are away",
+//   "must guess the month this song was release on and drink however many months they are away (check spotify)",
+//   "get to dish out a drink for every person in your party",
+//   "are now drinking buddies and must drink when the others drink for the next 5 songs",
+//   "voted for this so must take a drink for every letter in the songs name",
+//   "aren't allowed to move until the song finishes",
+//   "must dance until the song is over",
+// ];
 
 const Game = () => {
   const { id } = useParams<{ id: string }>();
