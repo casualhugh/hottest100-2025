@@ -54,7 +54,7 @@ cronAdd("nowplaying", "*/2 * * * *", () => {
     try {
       songRecord = $app.findFirstRecordByFilter(
         "songs",
-        "searchable_name = {:searchable_name} && searchable_artist = {:searchable_artist}",
+        "searchable_name ~ {:searchable_name} && searchable_artist ~ {:searchable_artist}",
         { searchable_name, searchable_artist }
       );
     } catch {
