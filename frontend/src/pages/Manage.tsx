@@ -32,8 +32,8 @@ function Settings() {
     navigate(`/game/${id}`);
   };
 
-  const handleGoToVotes = (user_id: string) => {
-    navigate(`/votes/${id}?user_id=${user_id}`);
+  const handleGoToVotes = (name: string, user_id: string) => {
+    navigate(`/votes/${id}?user_id=${user_id}&name=${name}`);
   };
 
   const removePlayer = (user_id: string) => {
@@ -84,7 +84,7 @@ function Settings() {
             title="Click to edit votes"
           >
             <button
-              onClick={() => handleGoToVotes(player.id)}
+              onClick={() => handleGoToVotes(player.name, player.id)}
               className="bg-black bg-opacity-50 text-white mt-2 w-full p-4 rounded-lg font-bold text-center"
             >
               {player.name}

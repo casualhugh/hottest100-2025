@@ -19,14 +19,18 @@ const NO_VOTES = [
 
 function Name() {
   const { id } = useParams<{ id: string }>();
+  const query = new URLSearchParams(window.location.search);
+  const alt_user_id = query.get("user_id");
+  const name = query.get("name");
   const { user, game, pb, updateVotes } = usePocket();
   const [songs, setSongs] = useState([]);
 
   const [votes, setVotes] = useState([...NO_VOTES]);
-  const [votes_id, setVoteId] = useState("");
-
-  const query = new URLSearchParams(window.location.search);
-  const alt_user_id = query.get("user_id");
+  const [votes_data, setVoteData] = useState({
+    id: "",
+    name: name ? name : "",
+  });
+  console.log(name);
   const user_id =
     alt_user_id &&
     game &&
@@ -38,10 +42,10 @@ function Name() {
   const loadVotes = () => {
     if (user && game) {
       pb.collection("votes")
-        .getFirstListItem(`user="${user_id}"`, { expand: "votes" })
+        .getFirstListItem(`user="${user_id}"`, { expand: "votes,user" })
         .then((res: any) => {
           if (res && res?.expand?.votes) {
-            const newVotes = [...votes];
+            const newVotes = [...NO_VOTES];
             res.expand.votes.forEach((vote: any, i: number) => {
               newVotes[i] = { ...vote };
             });
@@ -50,14 +54,14 @@ function Name() {
             setVotes([...NO_VOTES]);
           }
           if (res?.id) {
-            setVoteId(res.id);
+            setVoteData({ id: res.id, name: res.expand.user.name });
           } else {
-            setVoteId("");
+            setVoteData({ id: "", name: "" });
           }
         })
         .catch(() => {
           setVotes([...NO_VOTES]);
-          setVoteId("");
+          setVoteData({ id: "", name: "" });
         });
     }
   };
@@ -99,7 +103,7 @@ function Name() {
   const handleSave = async () => {
     const update = votes.filter((v: any) => v.id !== "").map((v: any) => v.id);
 
-    await updateVotes(user_id, votes_id, update);
+    await updateVotes(user_id, votes_data.id, update);
     loadVotes();
   };
 
@@ -111,7 +115,11 @@ function Name() {
     <div>
       <div className="max-w-md mx-auto p-4 text-center">
         <p className="mt-8 text-xl font-bold text-center my-4">
-          Enter your votes
+          {name
+            ? `Enter ${name}s votes`
+            : votes_data.name.length > 0
+            ? `Enter ${votes_data.name}s votes`
+            : "Enter your votes"}
         </p>
         <p>Only the official hottest 100 list is available for voting.</p>
         {votes.map((vote, index) => (
