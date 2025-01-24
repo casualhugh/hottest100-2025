@@ -233,20 +233,11 @@ const Game = () => {
         </h1>
         <div className="relative overflow-hidden">
           <div
-            className="flex whitespace-nowrap animate-marquee w-full"
+            className="flex whitespace-nowrap animate-marquee"
             style={{ animation: `marquee ${duration}s linear infinite` }}
           >
             {player_names.map((item: string, index: number) => (
               <span key={index} className="mx-2 text-sm text-gray-300 text-xl">
-                {item}
-              </span>
-            ))}
-
-            {player_names.map((item: string, index: number) => (
-              <span
-                key={`duplicate-${index}`}
-                className="mx-2 text-sm text-gray-300 text-xl"
-              >
                 {item}
               </span>
             ))}
