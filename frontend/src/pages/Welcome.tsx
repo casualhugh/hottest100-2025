@@ -92,7 +92,7 @@ function Welcome() {
           className="bg-secondarybg mt-2 w-full text-black font-bold p-4"
           onClick={handleNewGame}
         >
-          Host game / Continue hosting
+          Host game
         </button>
       </div>
     </div>

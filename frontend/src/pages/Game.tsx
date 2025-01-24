@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import SVGComponent from "@/components/AnimatedLogo";
 import Rules from "@/components/Rule";
 import CountDown from "@/components/CountDown";
-import CastButton from "@/components/CastButton";
 
 const individual = [
   "is now simon says eveyone must do what they say only if they preceed it with simon says until the song finishes otherwise drink",
@@ -185,7 +184,7 @@ const Game = () => {
         </div>
       )}
       <div className="fixed bottom-0 left-0 w-full bg-black/50">
-        {nowPlaying.position > 0 && nowPlaying.position < 101 && (
+        {nowPlaying.position > 0 && (
           <h1 className="text-center font-bold text-lg">
             #{nowPlaying.position}
           </h1>
@@ -206,7 +205,6 @@ const Game = () => {
       >
         <FaGear size={32} />
       </button>
-      <CastButton />
     </>
   );
 };
