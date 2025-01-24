@@ -214,10 +214,12 @@ const Game = () => {
           <SVGComponent />
         )
       ) : (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center text-center justify-center">
           <SVGComponent />
           <CountDown />
-          <p>The game rules will appear here when the countdown starts</p>
+          <p className="m-4 text-center">
+            The game rules will appear here when the countdown starts
+          </p>
         </div>
       )}
       <div className="fixed bottom-0 left-0 w-full bg-black/50">
