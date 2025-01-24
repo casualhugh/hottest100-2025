@@ -113,7 +113,7 @@ function Name() {
 
   return (
     <div>
-      <div className="max-w-md mx-auto p-4 text-center">
+      <div className="max-w-md mx-auto p-4 text-center  max-h-[calc(100vh)] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-mainbg scrollbar-track-secondarybg">
         <p className="mt-8 text-xl font-bold text-center my-4">
           {name
             ? `Enter ${name}s votes`
@@ -122,7 +122,10 @@ function Name() {
             : "Enter your votes"}
         </p>
         <p>Only the official hottest 100 list is available for voting.</p>
-        <p>If your votes aren't saving try refresh the screen before you enter them in.</p>
+        <p>
+          If your votes aren't saving try refresh the screen before you enter
+          them in.
+        </p>
         {votes.map((vote, index) => (
           <AutoCompleteInput
             key={`${index}`}
@@ -136,12 +139,9 @@ function Name() {
             setArtistInput={(e: any) => handleVoteArtistChange(index, e)}
           />
         ))}
-      </div>
-
-      <div className="ml-8 mr-8 ">
         <button
           onClick={handleSave}
-          className="bg-primarybg  mt-2 w-full p-4 rounded-lg  font-bold text-black"
+          className="bg-primarybg mt-2 w-full p-4 rounded-lg  font-bold text-black"
         >
           Save
         </button>

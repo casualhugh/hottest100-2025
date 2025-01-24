@@ -100,8 +100,8 @@ const AutoCompleteInput = ({
         onFocus={handleFocus}
         onBlur={handleBlur}
         type="text"
-        placeholder={`Enter song name... `}
-        className={`w-50 mt-1 py-2 text-center bg-black bg-opacity-50  focus:outline-none ${
+        placeholder={`Enter song name...`}
+        className={`w-30 sm:w-40 md:w-48 lg:w-50 mt-1 py-2 text-center bg-black bg-opacity-50 focus:outline-none ${
           hasId ? "border border-green-600 border-2" : ""
         }`}
       />
@@ -111,8 +111,8 @@ const AutoCompleteInput = ({
         onFocus={handleFocus}
         onBlur={handleBlur}
         type="text"
-        placeholder={`Enter artist... `}
-        className={`w-50 ml-2 mt-1 py-2 text-center bg-black bg-opacity-50  focus:outline-none ${
+        placeholder={`Enter artist...`}
+        className={`w-20 sm:w-40 md:w-48 lg:w-50 ml-2 mt-1 py-2 text-center bg-black bg-opacity-50 focus:outline-none ${
           hasId ? "border border-green-600 border-2" : ""
         }`}
       />

@@ -10,7 +10,7 @@ function HowToPlay() {
   };
 
   return (
-    <div className="mx-auto p-4 text-center">
+    <div className="mx-auto p-4 text-center max-h-[calc(100vh)] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-mainbg scrollbar-track-secondarybg">
       <h1 className="text-3xl font-bold text-center my-4">
         Hottest 100 2025 the game
       </h1>
@@ -45,7 +45,9 @@ function HowToPlay() {
             you're sculling your drink. No sooks allowed!
           </li>
           <li>
-            <strong>Chrome casting:</strong> In chrome right click, press cast then in the pop up chose sources "Cast Screen" then select your chrome cast. Press F11 to go fullscreen.
+            <strong>Chrome casting:</strong> In chrome right click, press cast
+            then in the pop up chose sources "Cast Screen" then select your
+            chrome cast. Press F11 to go fullscreen.
           </li>
         </ul>
 
