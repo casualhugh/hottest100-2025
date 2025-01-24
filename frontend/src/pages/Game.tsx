@@ -71,7 +71,7 @@ const Game = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   // countdownstarts should be true if it is after targetDate
-  const targetDate = new Date("2025-01-23T01:00:00Z");
+  const targetDate = new Date("2025-01-25T01:00:00Z");
   const [countDownStarted, setCountDownStarted] = useState(
     targetDate.getTime() < new Date().getTime()
   );
@@ -138,7 +138,7 @@ const Game = () => {
                         no_match.length
                       )
                     ],
-              position: data.countdown_position,
+              position: e.record.countdown_position,
             });
           }
         },
