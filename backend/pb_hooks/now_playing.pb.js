@@ -143,7 +143,7 @@ cronAdd("nowplaying", "*/1 * * * *", () => {
 
       if (playedRecord?.id) {
         console.log(`Song "${title}" by "${artist}" has already been played.`);
-        busyWait(jobStart, nextUpdated);
+        busyWait(runCount, jobStart, nextUpdated);
         return;
       }
 
@@ -191,7 +191,7 @@ cronAdd("nowplaying", "*/1 * * * *", () => {
         }
         console.log(`Votes updated for "${title}" by "${artist}".`);
       }
-      busyWait(jobStart, nextUpdated);
+      busyWait(runCount, jobStart, nextUpdated);
     } catch (e) {
       console.log(`Error: ${e}`);
     }
