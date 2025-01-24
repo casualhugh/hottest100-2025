@@ -196,7 +196,7 @@ const Game = () => {
       setShowPlayerRule(true); // Ensure it's visible initially
       const interval = setInterval(() => {
         setShowPlayerRule((prev) => !prev);
-      }, 10000);
+      }, 5000);
 
       return () => clearInterval(interval); // Cleanup on unmount or when playerRule changes
     } else {
