@@ -76,7 +76,7 @@ function Settings() {
         </p>
       </div>
 
-      <div className="ml-8 mr-8 ">
+      <div className="ml-8 mr-8 max-h-[calc(100vh-400px)] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-mainbg scrollbar-track-secondarybg">
         {players.map((player: any, index: number) => (
           <div
             key={index}
@@ -98,38 +98,38 @@ function Settings() {
             </button>
           </div>
         ))}
-
-        <button
-          className="bg-primarybg mt-2 w-full text-black font-bold p-4"
-          onClick={handleGoToGame}
-        >
-          Go to Game
-        </button>
-        <div className="max-w-md mx-auto text-center">
-          <p className="mt-8 text-xl">Enter new players name</p>
-          <div className={`bg-black bg-opacity-50 `}>
-            <input
-              value={name || ""}
-              onChange={(e) => setName(e.target.value)}
-              type="text"
-              placeholder="Enter a name..."
-              className={`py-2 text-center bg-transparent focus:outline-none`}
-            />
-            <button
-              className="bg-primarybg mt-2 w-full text-black font-bold p-4"
-              onClick={handleAddPlayer}
-            >
-              Add Player
-            </button>
-          </div>
-        </div>
-        <button
-          onClick={handleGoToGame}
-          className="bg-primarybg hover:bg-orange-700 text-black font-bold py-4 px-4 rounded-full absolute top-0 right-0 mt-6 mr-6"
-        >
-          <IoMdClose size={32} />
-        </button>
       </div>
+      <div className="max-w-md mx-auto text-center">
+        <p className="mt-8 text-xl">Enter new players name</p>
+        <div className={`bg-black bg-opacity-50 `}>
+          <input
+            value={name || ""}
+            onChange={(e) => setName(e.target.value)}
+            type="text"
+            placeholder="Enter a name..."
+            className={`py-2 text-center bg-transparent focus:outline-none`}
+          />
+          <button
+            className="bg-primarybg mt-2 w-full text-black font-bold p-4"
+            onClick={handleAddPlayer}
+          >
+            Add Player
+          </button>
+        </div>
+      </div>
+      <button
+        className="bg-primarybg mt-2 w-full text-black font-bold p-4"
+        onClick={handleGoToGame}
+      >
+        Go to Game
+      </button>
+
+      <button
+        onClick={handleGoToGame}
+        className="bg-primarybg hover:bg-orange-700 text-black font-bold py-4 px-4 rounded-full absolute top-0 right-0 mt-6 mr-6"
+      >
+        <IoMdClose size={32} />
+      </button>
     </div>
   );
 }
