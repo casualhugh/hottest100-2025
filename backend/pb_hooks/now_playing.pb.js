@@ -9,10 +9,10 @@ cronAdd("nowplaying", "*/1 * * * *", () => {
     console.log("Done sleeping");
   }
   const busyWait = (runCount, jobStart, nextUpdated) => {
-    if (runCount > 3) {
+    if (runCount > 2) {
       return;
     }
-    if (nextUpdated && nextUpdated - jobStart <= 40000) {
+    if (nextUpdated && nextUpdated - jobStart <= 20000) {
       // Check if the next update is within the next minute
       const delay = nextUpdated - jobStart + 1000; // Add 1 second to `next_updated`
       console.log(`Next update in ${delay / 1000} seconds. Waiting...`);
