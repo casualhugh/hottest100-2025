@@ -71,7 +71,7 @@ const Game = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   // countdownstarts should be true if it is after targetDate
-  const targetDate = new Date("2025-01-25T01:00:00Z");
+  const targetDate = new Date("2025-01-23T01:00:00Z");
   const [countDownStarted, setCountDownStarted] = useState(
     targetDate.getTime() < new Date().getTime()
   );
@@ -180,20 +180,31 @@ const Game = () => {
             " and " +
             voted_for_time[voted_for_time.length - 1];
           setPlayerRule(usersWithSongString + " " + group[num]);
-          setShowPlayerRule(true);
         } else {
           const num = convertStringToNumber(nowPlaying.name, individual.length);
           const usersWithSongString = voted_for_time[0];
           setPlayerRule(usersWithSongString + " " + individual[num]);
-          setShowPlayerRule(true);
         }
       } else {
-        setShowPlayerRule(false);
         setPlayerRule("");
       }
     }
   }, [game, nowPlaying]);
-  const duration = player_names.length * 3;
+
+  useEffect(() => {
+    if (playerRule) {
+      setShowPlayerRule(true); // Ensure it's visible initially
+      const interval = setInterval(() => {
+        setShowPlayerRule((prev) => !prev);
+      }, 10000);
+
+      return () => clearInterval(interval); // Cleanup on unmount or when playerRule changes
+    } else {
+      setShowPlayerRule(false); // Ensure it's hidden when there's no rule
+    }
+  }, [playerRule]);
+
+  const duration = player_names.length * 4;
   return (
     <>
       {showCode && (
@@ -238,6 +249,14 @@ const Game = () => {
           >
             {player_names.map((item: string, index: number) => (
               <span key={index} className="mx-2 text-sm text-gray-300 text-xl">
+                {item}
+              </span>
+            ))}
+            {player_names.map((item: string, index: number) => (
+              <span
+                key={`duplicate-${index}`}
+                className="mx-2 text-sm text-gray-300 text-xl"
+              >
                 {item}
               </span>
             ))}
