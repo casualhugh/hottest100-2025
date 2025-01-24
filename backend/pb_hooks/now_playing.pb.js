@@ -182,8 +182,6 @@ cronAdd("nowplaying", "*/1 * * * *", () => {
         ) {
           vote.set("played+", [playedId]);
           $app.save(vote);
-        } else {
-          console.log(songId, "not in", vote.get("votes"));
         }
       }
 

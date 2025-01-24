@@ -37,13 +37,34 @@ const group = [
   "must dance until the song is over",
 ];
 
+const no_match = [
+  "First to say the name of the song gives out 6 sips",
+  "First to say the name of the artist gives out 6 sips",
+  "Last to say the name of the song drinks",
+  "Last to say the name of the artist drinks",
+  "Play a game of fingers",
+  "Play a game of musical chairs (pausing the radio)",
+  "Play a game of bust a jive",
+  "If your name starts with the same letter as this song you drink",
+  "If your name starts with the same letter as the artist you drink",
+  "If you are younger than the current count down drink",
+  "Drink if you've seen this artist live",
+  "Everyone drink",
+  "Ladies drink",
+  "Men drink",
+  "Shortest drinks",
+  "Tallest drinks",
+  "Oldest drinks",
+  "Youngest drinks",
+];
+
 const Game = () => {
   const convertStringToNumber = (inputString: string, max: number) => {
     let hash = 0;
     for (let i = 0; i < inputString.length; i++) {
       hash += inputString.charCodeAt(i);
     }
-    // Scale the hash to a number between 1 and 10
+    // Scale the hash to a number between 1 and max
     const scaledNumber = hash % max;
     return scaledNumber;
   };
@@ -92,7 +113,12 @@ const Game = () => {
         id: data.song,
         name: data.expand.song.name,
         artist: data.expand?.song?.artist,
-        rule: data.expand?.song.game_rule,
+        rule:
+          data.expand?.song.game_rule.length > 0
+            ? data.expand?.song.game_rule
+            : no_match[
+                convertStringToNumber(data.expand.song.name, no_match.length)
+              ],
         position: data.countdown_position,
       });
       pb.collection("played").subscribe(
@@ -103,7 +129,15 @@ const Game = () => {
               id: e.record.song,
               name: e.record.expand.song.name,
               artist: e.record.expand?.song?.artist,
-              rule: e.record.expand?.song.game_rule,
+              rule:
+                e.record.expand?.song.game_rule.length > 0
+                  ? e.record.expand?.song.game_rule
+                  : no_match[
+                      convertStringToNumber(
+                        e.record.expand.song.name,
+                        no_match.length
+                      )
+                    ],
               position: data.countdown_position,
             });
           }
@@ -159,6 +193,7 @@ const Game = () => {
       }
     }
   }, [game, nowPlaying]);
+  const duration = player_names.length * 3;
   return (
     <>
       {showCode && (
@@ -166,7 +201,9 @@ const Game = () => {
           Game code: {`${id}`}
         </div>
       )}
-      {countDownStarted ? (
+      {countDownStarted &&
+      nowPlaying.position > 0 &&
+      nowPlaying.position < 101 ? (
         nowPlaying.rule.length > 0 || playerRule.length > 0 ? (
           showPlayerRule && playerRule.length > 0 ? (
             <Rules rule={playerRule} />
@@ -192,12 +229,27 @@ const Game = () => {
         <h1 className="text-center font-bold text-4xl">
           {nowPlaying.name} - {nowPlaying.artist}
         </h1>
+        <div className="relative overflow-hidden">
+          <div
+            className="flex whitespace-nowrap animate-marquee w-full"
+            style={{ animation: `marquee ${duration}s linear infinite` }}
+          >
+            {player_names.map((item: string, index: number) => (
+              <span key={index} className="mx-2 text-sm text-gray-300 text-xl">
+                {item}
+              </span>
+            ))}
 
-        <p className="text-center  text-gray-300 text-xl">
-          {player_names.length > 0
-            ? `${player_names.join(" | ")}`
-            : "Waiting for players..."}
-        </p>
+            {player_names.map((item: string, index: number) => (
+              <span
+                key={`duplicate-${index}`}
+                className="mx-2 text-sm text-gray-300 text-xl"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
       <button
         onClick={handleSettings}
