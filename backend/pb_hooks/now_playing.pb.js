@@ -9,24 +9,24 @@ cronAdd("nowplaying", "*/1 * * * *", () => {
     console.log("Done sleeping");
   }
   const busyWait = (runCount, jobStart, nextUpdated) => {
-    if (runCount > 3){
-        return;
+    if (runCount > 3) {
+      return;
     }
-      if (nextUpdated && nextUpdated - jobStart <= 40000) {
-        // Check if the next update is within the next minute
-        const delay = nextUpdated - jobStart + 1000; // Add 1 second to `next_updated`
-        console.log(`Next update in ${delay / 1000} seconds. Waiting...`);
+    if (nextUpdated && nextUpdated - jobStart <= 40000) {
+      // Check if the next update is within the next minute
+      const delay = nextUpdated - jobStart + 1000; // Add 1 second to `next_updated`
+      console.log(`Next update in ${delay / 1000} seconds. Waiting...`);
 
-        // Schedule `handleNowPlaying` to run 1 second after `next_updated`
-        sleep(delay);
-        nowPlaying(runCount + 1, jobStart);
-      } else {
-        console.log(
-          `Next update in ${
-            (nextUpdated - jobStart) / 1000
-          } seconds can wait till next run.`
-        );
-      }
+      // Schedule `handleNowPlaying` to run 1 second after `next_updated`
+      sleep(delay);
+      nowPlaying(runCount + 1, jobStart);
+    } else {
+      console.log(
+        `Next update in ${
+          (nextUpdated - jobStart) / 1000
+        } seconds can wait till next run.`
+      );
+    }
   };
 
   const nowPlaying = (runCount, jobStart) => {
@@ -164,29 +164,29 @@ cronAdd("nowplaying", "*/1 * * * *", () => {
       }
       $app.save(newPlayed);
       console.log(`Added "${title}" by "${artist}" to the played collection.`);
-      playedRecord = $app.findFirstRecordByFilter(
-        "played",
-        "song = {:song_id}",
-        {
-          song_id: songId,
-        }
-      );
+      if (lastPlayedPosition > 0) {
+        playedRecord = $app.findFirstRecordByFilter(
+          "played",
+          "song = {:song_id}",
+          {
+            song_id: songId,
+          }
+        );
 
-      // Update the "votes" collection to link to the played record
-      const playedId = playedRecord.get("id");
-      const voteRecords = $app.findAllRecords("votes");
-      for (const vote of voteRecords) {
-        if (
-          vote.get("votes").includes(songId) &&
-          !vote.get("played").includes(playedId)
-        ) {
-          vote.set("played+", [playedId]);
-          $app.save(vote);
+        // Update the "votes" collection to link to the played record
+        const playedId = playedRecord.get("id");
+        const voteRecords = $app.findAllRecords("votes");
+        for (const vote of voteRecords) {
+          if (
+            vote.get("votes").includes(songId) &&
+            !vote.get("played").includes(playedId)
+          ) {
+            vote.set("played+", [playedId]);
+            $app.save(vote);
+          }
         }
+        console.log(`Votes updated for "${title}" by "${artist}".`);
       }
-
-      console.log("New played added.");
-      console.log(`Votes updated for "${title}" by "${artist}".`);
       busyWait(jobStart, nextUpdated);
     } catch (e) {
       console.log(`Error: ${e}`);
