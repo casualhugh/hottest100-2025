@@ -44,6 +44,9 @@ function HowToPlay() {
             <strong>No Whingers!:</strong> Mutter "should've been higher", and
             you're sculling your drink. No sooks allowed!
           </li>
+          <li>
+            <strong>Chrome casting:</strong> In chrome right click, press cast then in the pop up chose sources "Cast Screen" then select your chrome cast. Press F11 to go fullscreen.
+          </li>
         </ul>
 
         <p>
