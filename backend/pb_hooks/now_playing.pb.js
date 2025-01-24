@@ -93,9 +93,10 @@ cronAdd("nowplaying", "*/1 * * * *", () => {
       const seconds = String(currentTime.getSeconds()).padStart(2, "0");
 
       const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
+      let isNew = false;
       // Check if the song exists in the "songs" collection
       let songRecord;
+
       try {
         songRecord = $app.findFirstRecordByFilter(
           "songs",
@@ -103,6 +104,7 @@ cronAdd("nowplaying", "*/1 * * * *", () => {
           { searchable_name, searchable_artist }
         );
       } catch {
+        isNew = true;
         console.log(
           `Song "${title}" by "${artist}" not found in the database. Adding it now.`
         );
@@ -159,9 +161,11 @@ cronAdd("nowplaying", "*/1 * * * *", () => {
 
       let newPlayed = new Record(playedCollection);
       newPlayed.set("song", songId);
+      newPlayed.set("new_song", isNew);
       if (lastPlayedPosition > 0) {
         newPlayed.set("countdown_position", lastPlayedPosition - 1);
       }
+
       $app.save(newPlayed);
       console.log(`Added "${title}" by "${artist}" to the played collection.`);
       if (lastPlayedPosition > 0) {
