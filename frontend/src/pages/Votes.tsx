@@ -122,6 +122,7 @@ function Name() {
             : "Enter your votes"}
         </p>
         <p>Only the official hottest 100 list is available for voting.</p>
+        <p>If your votes aren't saving try refresh the screen before you enter them in.</p>
         {votes.map((vote, index) => (
           <AutoCompleteInput
             key={`${index}`}
