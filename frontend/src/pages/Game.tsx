@@ -171,7 +171,6 @@ const Game = () => {
           return vote.votes.includes(nowPlaying.id);
         })
         .map((vote: any) => capitalizeFirstLetter(vote.expand.user.name));
-      console.log("voted", nowPlaying.id, voted_for_time);
       if (voted_for_time.length > 0) {
         if (voted_for_time.length > 1) {
           const num = convertStringToNumber(nowPlaying.name, group.length);
@@ -208,9 +207,14 @@ const Game = () => {
   return (
     <>
       {showCode && (
-        <div className="absolute top-0 left-0 text-4xl">
-          Game code: {`${id}`}
-        </div>
+        <>
+          <div className="absolute top-0 left-0 text-4xl">
+            Game code: {`${id}`}
+          </div>
+          <div className="absolute top-8 left-1 text-md">
+            Tag @hughs.clues on your insta stories!
+          </div>
+        </>
       )}
       {countDownStarted &&
       nowPlaying.position > 0 &&
