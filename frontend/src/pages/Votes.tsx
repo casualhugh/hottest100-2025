@@ -78,7 +78,7 @@ function Name() {
     loadJSON();
 
     loadVotes();
-  }, [user, game]);
+  }, [user]);
 
   const navigate = useNavigate();
 
