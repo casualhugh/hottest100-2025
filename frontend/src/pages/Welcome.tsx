@@ -55,7 +55,7 @@ function Welcome() {
     <div>
       <div className="max-w-md mx-auto p-4 text-center">
         <h1 className="text-3xl font-bold text-center my-4">
-          Welcome to Hottest 100 2025 The game
+          Welcome to Hottest 200 2025 The game
         </h1>
 
         <p className="">
