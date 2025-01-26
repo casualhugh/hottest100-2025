@@ -218,7 +218,7 @@ const Game = () => {
       )}
       {countDownStarted &&
       nowPlaying.position > 0 &&
-      nowPlaying.position < 101 ? (
+      nowPlaying.position < 201 ? (
         nowPlaying.rule.length > 0 || playerRule.length > 0 ? (
           showPlayerRule && playerRule.length > 0 ? (
             <Rules rule={playerRule} />
@@ -238,7 +238,7 @@ const Game = () => {
         </div>
       )}
       <div className="fixed bottom-0 left-0 w-full bg-black/50">
-        {nowPlaying.position > 0 && (
+        {nowPlaying.position > 0 && nowPlaying.position < 201 && (
           <h1 className="text-center font-bold text-lg">
             #{nowPlaying.position}
           </h1>
