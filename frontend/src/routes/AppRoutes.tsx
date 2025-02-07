@@ -5,20 +5,22 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import Game from "@/pages/Game";
-import Manage from "@/pages/Manage";
-import Name from "@/pages/Name";
-import Settings from "@/pages/Settings";
-import Votes from "@/pages/Votes";
-import Welcome from "@/pages/Welcome";
-import LoginQuestion from "@/pages/LoginQuestion";
-import NewGame from "@/pages/NewGame";
-import SignIn from "@/pages/SignIn";
+
 import MainLayout from "@/layouts/MainLayout";
 import { PocketProvider } from "@/contexts/PocketContext";
-import { RequireAuth } from "@/components/RequireAuth";
-import { RequireInGame } from "@/components/RequireInGame";
-import HowToPlay from "@/pages/HowToPlay";
+// import { RequireAuth } from "@/components/RequireAuth";
+// import { RequireInGame } from "@/components/RequireInGame";
+// import HowToPlay from "@/pages/HowToPlay";
+// import Game from "@/pages/Game";
+// import Manage from "@/pages/Manage";
+// import Name from "@/pages/Name";
+// import Settings from "@/pages/Settings";
+// import Votes from "@/pages/Votes";
+// import Welcome from "@/pages/Welcome";
+// import LoginQuestion from "@/pages/LoginQuestion";
+// import NewGame from "@/pages/NewGame";
+// import SignIn from "@/pages/SignIn";
+import GameOver from "@/pages/GameOver";
 
 const AppRoutes: React.FC = () => (
   <Router>
@@ -26,7 +28,9 @@ const AppRoutes: React.FC = () => (
       <MainLayout>
         <Routes>
           <Route path="*" element={<Navigate to={{ pathname: "/" }} />} />
-          <Route path="/" element={<Welcome />} />
+          <Route path="/" element={<GameOver />} />
+          
+          {/* <Route path="/" element={<Welcome />} />
           <Route path="/login/" element={<SignIn />} />
           <Route path="/name/:id" element={<Name />} />
           <Route path="/question/:id" element={<LoginQuestion />} />
@@ -39,7 +43,7 @@ const AppRoutes: React.FC = () => (
               <Route path="/game/:id" element={<Game />} />
               <Route path="/manage/:id" element={<Manage />} />
             </Route>
-          </Route>
+          </Route> */}
         </Routes>
       </MainLayout>
     </PocketProvider>
