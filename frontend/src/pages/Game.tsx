@@ -58,6 +58,30 @@ const no_match = [
   "Youngest drinks",
 ];
 
+const count_msg: { [key: number]: string } = {
+  100: "Starting off strong, everyone is now signed up to play 1 before #90 or 10 before #10",
+  99: "Starting off strong, everyone is now signed up to play 1 before #90 or 10 before #10",
+  98: "Starting off strong, everyone is now signed up to play 1 before #90 or 10 before #10",
+  97: "Starting off strong, everyone is now signed up to play 1 before #90 or 10 before #10",
+  96: "Starting off strong, everyone is now signed up to play 1 before #90 or 10 before #10",
+  95: "Starting off strong, everyone is now signed up to play 1 before #90 or 10 before #10",
+  94: "Starting off strong, everyone is now signed up to play 1 before #90 or 10 before #10",
+  93: "Starting off strong, everyone is now signed up to play 1 before #90 or 10 before #10",
+  92: "Starting off strong, everyone is now signed up to play 1 before #90 or 10 before #10",
+  91: "Starting off strong, everyone is now signed up to play 1 before #90 or 10 before #10",
+  90: "If you haven't finished 1 drink before now you must finish 10 before #10 plays",
+  76: "Get ready to take a group photo at #75",
+  75: "Take your group photo say 'I love triple J'",
+  51: "Get ready to take your #50 grouup photo",
+  50: "Take your group photo say 'Aussie aussie aussie...'",
+  26: "Get ready for your #25 group photo",
+  25: "Take your group photo and if you've said 'Should've been higher' finish your drink",
+  11: "Get ready to take your #11 group photo",
+  10: "Take your group photo and if you've been here since #90 and haven't finished 10 drinks before now you're a pussy",
+  2: "Get ready to take your #1 group reaction video",
+  1: "Thanks so much for playing! See you in 2026!",
+};
+
 const Game = () => {
   const convertStringToNumber = (inputString: string, max: number) => {
     let hash = 0;
@@ -71,7 +95,7 @@ const Game = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   // countdownstarts should be true if it is after targetDate
-  const targetDate = new Date("2025-01-26T23:00:00Z");
+  const targetDate = new Date("2025-07-26T00:00:00Z");
   const [countDownStarted, setCountDownStarted] = useState(
     targetDate.getTime() < new Date().getTime()
   );
@@ -107,6 +131,8 @@ const Game = () => {
       })
   );
   // todo: Sub to now playing and update when that does
+  const [countRule, setCountRule] = useState("");
+  const [showCountRule, setShowCountRule] = useState(false);
   useEffect(() => {
     if (data && data?.expand) {
       setNowPlaying({
@@ -121,10 +147,15 @@ const Game = () => {
               ],
         position: data.countdown_position,
       });
+      if (count_msg.hasOwnProperty(data.countdown_position)) {
+        setCountRule(count_msg[data.countdown_position]);
+      } else {
+        setCountRule("");
+      }
       pb.collection("played").subscribe(
         "*",
         function (e: any) {
-          if (e.action === "create") {
+          if (e.action === "create" || e.action === "update") {
             setNowPlaying({
               id: e.record.song,
               name: e.record.expand.song.name,
@@ -140,6 +171,11 @@ const Game = () => {
                     ],
               position: e.record.countdown_position,
             });
+            if (count_msg.hasOwnProperty(e.record.countdown_position)) {
+              setCountRule(count_msg[e.record.countdown_position]);
+            } else {
+              setCountRule("");
+            }
           }
         },
         {
@@ -162,6 +198,7 @@ const Game = () => {
     : [];
   const [playerRule, setPlayerRule] = useState("");
   const [showPlayerRule, setShowPlayerRule] = useState(false);
+
   useEffect(() => {
     if (game && game?.votes) {
       console.log(game);
@@ -191,14 +228,34 @@ const Game = () => {
   }, [game, nowPlaying]);
 
   useEffect(() => {
-    if (playerRule) {
+    if (playerRule.length > 0) {
       setShowPlayerRule(true); // Ensure it's visible initially
       const interval = setInterval(() => {
-        setShowPlayerRule((prev) => !prev);
+        if (countRule.length > 0) {
+          if (showPlayerRule) {
+            setShowPlayerRule(false);
+            setShowCountRule(true);
+          } else if (showCountRule) {
+            setShowCountRule(false);
+            setShowPlayerRule(false);
+          } else {
+            setShowPlayerRule(true);
+            setShowCountRule(false);
+          }
+        } else {
+          setShowPlayerRule((prev) => !prev);
+        }
       }, 5000);
 
       return () => clearInterval(interval); // Cleanup on unmount or when playerRule changes
+    } else if (countRule.length > 0) {
+      const interval = setInterval(() => {
+        setShowCountRule((prev) => !prev);
+      }, 5000);
+
+      return () => clearInterval(interval);
     } else {
+      setShowCountRule(false);
       setShowPlayerRule(false); // Ensure it's hidden when there's no rule
     }
   }, [playerRule]);
@@ -212,16 +269,20 @@ const Game = () => {
             Game code: {`${id}`}
           </div>
           <div className="absolute top-8 left-1 text-md">
-            Tag @hughs.clues on your insta stories!
+            Created by: @hughs.clues
           </div>
         </>
       )}
       {countDownStarted &&
       nowPlaying.position > 0 &&
       nowPlaying.position < 201 ? (
-        nowPlaying.rule.length > 0 || playerRule.length > 0 ? (
+        nowPlaying.rule.length > 0 ||
+        playerRule.length > 0 ||
+        countRule.length > 0 ? (
           showPlayerRule && playerRule.length > 0 ? (
             <Rules rule={playerRule} />
+          ) : showCountRule && countRule.length > 0 ? (
+            <Rules rule={countRule} />
           ) : (
             <Rules rule={nowPlaying.rule} />
           )
