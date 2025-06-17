@@ -147,14 +147,14 @@ function SignIn() {
           )}
           <button
             type="submit"
-            className={`bg-primarybg mt-2 w-full p-4 rounded-lg font-bold text-black`}
+            className={`bg-primarybg mt-2 w-full p-4 rounded-lg font-bold text-white`}
           >
             {signingUp ? "Sign up" : "Log in"}
           </button>
         </form>
         <button
           className={`bg-secondarybg
-           mt-2 w-full p-4 rounded-lg font-bold text-black`}
+           mt-2 w-full p-4 rounded-lg font-bold text-white`}
           onClick={
             signingUp ? () => setSigningUp(false) : () => setSigningUp(true)
           }

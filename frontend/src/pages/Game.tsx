@@ -269,7 +269,7 @@ const Game = () => {
       </div>
       <button
         onClick={handleSettings}
-        className="bg-primarybg hover:bg-orange-700 text-black font-bold py-4 px-4 rounded-full absolute top-0 right-0 mt-6 mr-6"
+        className="bg-primarybg hover:bg-orange-700 text-white font-bold py-4 px-4 rounded-full absolute top-0 right-0 mt-6 mr-6"
       >
         <FaGear size={32} />
       </button>

@@ -83,13 +83,13 @@ function Welcome() {
 
       <div className="ml-8 mr-8 ">
         <button
-          className="bg-primarybg  mt-2 w-full p-4 rounded-lg  font-bold text-black"
+          className="bg-primarybg  mt-2 w-full p-4 rounded-lg  font-bold text-white"
           onClick={handleEnterGame}
         >
           Enter
         </button>
         <button
-          className="bg-secondarybg mt-2 w-full text-black font-bold p-4"
+          className="bg-secondarybg mt-2 w-full text-white font-bold p-4"
           onClick={handleNewGame}
         >
           Host game

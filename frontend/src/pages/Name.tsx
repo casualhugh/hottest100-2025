@@ -82,7 +82,7 @@ function Name() {
           </div>
           <button
             type="submit"
-            className="bg-primarybg mt-2 w-full p-4 rounded-lg font-bold text-black"
+            className="bg-primarybg mt-2 w-full p-4 rounded-lg font-bold text-white"
           >
             Enter
           </button>
@@ -91,7 +91,7 @@ function Name() {
 
       <div className="ml-8 mr-8">
         <button
-          className="bg-secondarybg mt-2 w-full text-black font-bold p-4"
+          className="bg-secondarybg mt-2 w-full text-white font-bold p-4"
           onClick={handleSpectate}
         >
           Spectate Game (No votes)

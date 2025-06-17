@@ -55,7 +55,7 @@ function Settings() {
         <h1 className="text-3xl font-bold text-center my-4">
           Hottest 200 2025 the game
         </h1>
-        {showCode && (<p className="">Game Code: {`${id}`}</p>)}
+        {showCode && <p className="">Game Code: {`${id}`}</p>}
       </div>
 
       <div className="ml-8 mr-8 ">
@@ -110,13 +110,13 @@ function Settings() {
           {showCode ? "Hide game code" : "Show game code"}
         </button>
         <button
-          className="bg-primarybg mt-2 w-full text-black font-bold p-4"
+          className="bg-primarybg mt-2 w-full text-white font-bold p-4"
           onClick={handleGoToHowToPlay}
         >
           How to play
         </button>
         <button
-          className="bg-primarybg mt-2 w-full text-black font-bold p-4"
+          className="bg-primarybg mt-2 w-full text-white font-bold p-4"
           onClick={handleGoToGame}
         >
           Go to Game
@@ -124,7 +124,7 @@ function Settings() {
 
         <button
           onClick={handleGoToGame}
-          className="bg-primarybg hover:bg-orange-700 text-black font-bold py-4 px-4 rounded-full absolute top-0 right-0 mt-6 mr-6"
+          className="bg-primarybg hover:bg-orange-700 text-white font-bold py-4 px-4 rounded-full absolute top-0 right-0 mt-6 mr-6"
         >
           <IoMdClose size={32} />
         </button>

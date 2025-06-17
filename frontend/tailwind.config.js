@@ -14,8 +14,8 @@ export default {
       },
       colors: {
         mainbg: "#66ceddee",
-        primarybg: "#FFEE00",
-        secondarybg: "#FEF89E",
+        primarybg: "rgba(0,0,0,0.6)",
+        secondarybg: "rgba(0,0,0,0.4)",
       },
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
