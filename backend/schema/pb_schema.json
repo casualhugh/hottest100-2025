@@ -173,8 +173,8 @@
   },
   {
     "id": "_pb_users_auth_",
-    "listRule": "id = @request.auth.id",
-    "viewRule": "id = @request.auth.id",
+    "listRule": "@request.auth.id != \"\"",
+    "viewRule": "@request.auth.id != \"\"",
     "createRule": "",
     "updateRule": "id = @request.auth.id",
     "deleteRule": "id = @request.auth.id",
@@ -266,31 +266,11 @@
         "type": "text"
       },
       {
-        "hidden": false,
-        "id": "file376926767",
-        "maxSelect": 1,
-        "maxSize": 0,
-        "mimeTypes": [
-          "image/jpeg",
-          "image/png",
-          "image/svg+xml",
-          "image/gif",
-          "image/webp"
-        ],
-        "name": "avatar",
-        "presentable": false,
-        "protected": false,
-        "required": false,
-        "system": false,
-        "thumbs": null,
-        "type": "file"
-      },
-      {
         "autogeneratePattern": "",
         "hidden": false,
         "id": "text4166911607",
         "max": 0,
-        "min": 0,
+        "min": 1,
         "name": "username",
         "pattern": "",
         "presentable": false,
@@ -300,7 +280,7 @@
         "type": "text"
       },
       {
-        "hidden": false,
+        "hidden": true,
         "id": "autodate2990389176",
         "name": "created",
         "onCreate": true,
@@ -310,7 +290,7 @@
         "type": "autodate"
       },
       {
-        "hidden": false,
+        "hidden": true,
         "id": "autodate3332085495",
         "name": "updated",
         "onCreate": true,
@@ -322,8 +302,8 @@
     ],
     "indexes": [
       "CREATE UNIQUE INDEX `idx_tokenKey__pb_users_auth_` ON `users` (`tokenKey`)",
-      "CREATE UNIQUE INDEX `idx_VLpHtQyI2z` ON `users` (`username`)",
-      "CREATE UNIQUE INDEX `idx_email__pb_users_auth_` ON `users` (`email`) WHERE `email` != ''"
+      "CREATE UNIQUE INDEX `idx_email__pb_users_auth_` ON `users` (`email`) WHERE `email` != ''",
+      "CREATE UNIQUE INDEX `idx_tbEzl0O0HQ` ON `users` (`username`)"
     ],
     "system": false,
     "authRule": "",
@@ -340,7 +320,7 @@
         "id": "",
         "name": "name",
         "username": "",
-        "avatarURL": "avatar"
+        "avatarURL": ""
       },
       "enabled": false
     },
@@ -789,9 +769,65 @@
     "system": true
   },
   {
+    "id": "pbc_4185980916",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "name": "artists",
+    "type": "base",
+    "fields": [
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 0,
+        "min": 0,
+        "name": "id",
+        "pattern": "^[a-zA-Z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text1579384326",
+        "max": 0,
+        "min": 0,
+        "name": "name",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text3494086946",
+        "max": 0,
+        "min": 0,
+        "name": "searchable_name",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
+      }
+    ],
+    "indexes": [],
+    "system": false
+  },
+  {
     "id": "pbc_879072730",
-    "listRule": "@request.auth.id != \"\"",
-    "viewRule": "@request.auth.id != \"\"",
+    "listRule": "@request.auth.id != \"\" && (\n players.id ?=@request.auth.id || owner.id = @request.auth.id)",
+    "viewRule": "@request.auth.id != \"\" && (\n players.id ?=@request.auth.id || owner.id = @request.auth.id)",
     "createRule": "@request.auth.id != \"\"",
     "updateRule": "@request.auth.id != \"\" && owner.id = @request.auth.id",
     "deleteRule": "@request.auth.id != \"\" && owner.id = @request.auth.id",
@@ -843,7 +879,7 @@
         "hidden": false,
         "id": "text2617269428",
         "max": 0,
-        "min": 0,
+        "min": 3,
         "name": "game_code",
         "pattern": "",
         "presentable": false,
@@ -861,10 +897,20 @@
         "presentable": false,
         "system": false,
         "type": "autodate"
+      },
+      {
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
       }
     ],
     "indexes": [
-      "CREATE UNIQUE INDEX `idx_Mjk9M6BGSG` ON `games` (`game_code`)"
+      "CREATE UNIQUE INDEX `idx_1Qkmu8dB49` ON `games` (`game_code`)"
     ],
     "system": false
   },
@@ -901,7 +947,7 @@
         "minSelect": 0,
         "name": "song",
         "presentable": false,
-        "required": true,
+        "required": false,
         "system": false,
         "type": "relation"
       },
@@ -942,13 +988,13 @@
     "type": "base",
     "fields": [
       {
-        "autogeneratePattern": "[a-z0-9]{15}",
+        "autogeneratePattern": "00[a-z0-9]{15}",
         "hidden": false,
         "id": "text3208210256",
-        "max": 15,
-        "min": 15,
+        "max": 0,
+        "min": 0,
         "name": "id",
-        "pattern": "^[a-z0-9]+$",
+        "pattern": "^[a-zA-Z0-9]+$",
         "presentable": false,
         "primaryKey": true,
         "required": true,
@@ -965,7 +1011,7 @@
         "pattern": "",
         "presentable": false,
         "primaryKey": false,
-        "required": true,
+        "required": false,
         "system": false,
         "type": "text"
       },
@@ -979,7 +1025,7 @@
         "pattern": "",
         "presentable": false,
         "primaryKey": false,
-        "required": true,
+        "required": false,
         "system": false,
         "type": "text"
       },
@@ -996,6 +1042,61 @@
         "required": false,
         "system": false,
         "type": "text"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text1591295210",
+        "max": 0,
+        "min": 0,
+        "name": "full_title",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
+      },
+      {
+        "cascadeDelete": false,
+        "collectionId": "pbc_4185980916",
+        "hidden": false,
+        "id": "relation2833195561",
+        "maxSelect": 10,
+        "minSelect": 0,
+        "name": "artist_ids",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "relation"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text3494086946",
+        "max": 0,
+        "min": 0,
+        "name": "searchable_name",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text3546849022",
+        "max": 0,
+        "min": 0,
+        "name": "searchable_artist",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
       }
     ],
     "indexes": [],
@@ -1003,11 +1104,11 @@
   },
   {
     "id": "pbc_2597176356",
-    "listRule": "@request.auth.id != \"\" &&\n(\n  user = @request.auth.id || \n  (\n    @collection.games:game.owner.id = @request.auth.id &&\n    @collection.games:game.players.id ?= user.id\n  )\n)",
-    "viewRule": "@request.auth.id != \"\" &&\n(\n  user = @request.auth.id || \n  (\n    @collection.games:game.owner.id = @request.auth.id &&\n    @collection.games:game.players.id ?= user.id\n  )\n)",
+    "listRule": "@request.auth.id != \"\"",
+    "viewRule": "@request.auth.id != \"\" && (\n@request.auth.id ?= user.id || (\n@collection.games:auth.owner.id ?= @request.auth.id &&\n@collection.games:auth.players.id ?= user.id ))\n",
     "createRule": "@request.auth.id != \"\"",
-    "updateRule": "@request.auth.id != \"\" &&\n(\n  user = @request.auth.id || \n  (\n    @collection.games:game.owner.id = @request.auth.id &&\n    @collection.games:game.players.id ?= user.id\n  )\n)",
-    "deleteRule": null,
+    "updateRule": "@request.auth.id != \"\" && (\n@request.auth.id ?= user.id || (\n@collection.games:auth.owner.id ?= @request.auth.id &&\n@collection.games:auth.players.id ?= user.id ))\n",
+    "deleteRule": "",
     "name": "votes",
     "type": "base",
     "fields": [
@@ -1026,7 +1127,7 @@
         "type": "text"
       },
       {
-        "cascadeDelete": true,
+        "cascadeDelete": false,
         "collectionId": "_pb_users_auth_",
         "hidden": false,
         "id": "relation2375276105",
@@ -1034,7 +1135,7 @@
         "minSelect": 0,
         "name": "user",
         "presentable": false,
-        "required": true,
+        "required": false,
         "system": false,
         "type": "relation"
       },
@@ -1043,18 +1144,49 @@
         "collectionId": "pbc_1906970480",
         "hidden": false,
         "id": "relation1368095439",
-        "maxSelect": 10,
+        "maxSelect": 999,
         "minSelect": 0,
         "name": "votes",
         "presentable": false,
         "required": false,
         "system": false,
         "type": "relation"
+      },
+      {
+        "cascadeDelete": false,
+        "collectionId": "pbc_1906970480",
+        "hidden": false,
+        "id": "relation1825427252",
+        "maxSelect": 999,
+        "minSelect": 0,
+        "name": "played",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "relation"
+      },
+      {
+        "hidden": false,
+        "id": "autodate2990389176",
+        "name": "created",
+        "onCreate": true,
+        "onUpdate": false,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      },
+      {
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
       }
     ],
-    "indexes": [
-      "CREATE UNIQUE INDEX `idx_F8NCRCwEhk` ON `votes` (`user`)"
-    ],
+    "indexes": [],
     "system": false
   }
 ]

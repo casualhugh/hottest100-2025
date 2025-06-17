@@ -13,7 +13,7 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
-        mainbg: "#FF8800",
+        mainbg: "#66ceddee",
         primarybg: "#FFEE00",
         secondarybg: "#FEF89E",
       },

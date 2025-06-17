@@ -1,0 +1,18 @@
+@keyframes hueShift {
+  0% {
+    background: #dd6666ee;
+  }
+  33% {
+    background: #66ceddee;
+  }
+  66% {
+    background: #dd8b66ee;
+  }
+  100% {
+    background: #dd6666ee;
+  }
+}
+
+.animated-background {
+  animation: hueShift 60s ease-in-out infinite;
+}
