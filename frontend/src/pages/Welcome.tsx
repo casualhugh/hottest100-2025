@@ -51,6 +51,10 @@ function Welcome() {
     else navigate("/login/?next=/new/");
   };
 
+  const handleSimpleGame = () => {
+    navigate("/play");
+  };
+
   return (
     <div>
       <div className="max-w-md mx-auto p-4 text-center">
@@ -59,9 +63,9 @@ function Welcome() {
         </h1>
 
         <p className="">
-          This is a game like Kahoot where you can choose to host a game or join
-          one. If you're hosting, you'll be given a unique code that you can
-          share with friends.
+          This is a drinking game where for each song of the hottest 100 there's
+          a new drinking rule. Additionally, players can enter in their votes
+          and there will be special rules when a song they voted for plays
         </p>
         <CountDown />
         <p className="mt-8">Enter your game code</p>
@@ -93,6 +97,12 @@ function Welcome() {
           onClick={handleNewGame}
         >
           Host game
+        </button>
+        <button
+          className="bg-secondarybg mt-2 w-full text-white font-bold p-4"
+          onClick={handleSimpleGame}
+        >
+          Play without votes
         </button>
       </div>
     </div>
