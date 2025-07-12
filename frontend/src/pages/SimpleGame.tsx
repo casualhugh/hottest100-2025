@@ -1,6 +1,5 @@
-import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
-import { FaArrowLeft, FaBackward, FaGear } from "react-icons/fa6";
+import { FaArrowLeft, FaGear } from "react-icons/fa6";
 import { usePocket } from "@/contexts/PocketContext";
 import useSWR from "swr";
 import { useEffect, useState } from "react";

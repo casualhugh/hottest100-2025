@@ -20,7 +20,6 @@ import Welcome from "@/pages/Welcome";
 import LoginQuestion from "@/pages/LoginQuestion";
 import NewGame from "@/pages/NewGame";
 import SignIn from "@/pages/SignIn";
-import SimpleGame from "@/pages/SimpleGame";
 import GuestGame from "@/pages/GuestGame";
 // import GameOver from "@/pages/GameOver";
 
