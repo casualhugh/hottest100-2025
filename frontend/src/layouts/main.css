@@ -2,11 +2,14 @@
   0% {
     background: #dd6666ee;
   }
-  33% {
-    background: #66ceddee;
+  25% {
+    background: #ddcb66ee;
   }
-  66% {
-    background: #dd8b66ee;
+  50% {
+    background: #66c5ddee;
+  }
+  75% {
+    background: #b166ddee;
   }
   100% {
     background: #dd6666ee;
@@ -14,5 +17,5 @@
 }
 
 .animated-background {
-  animation: hueShift 60s ease-in-out infinite;
+  animation: hueShift 600s linear infinite;
 }
