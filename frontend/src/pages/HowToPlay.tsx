@@ -20,7 +20,7 @@ function HowToPlay() {
         style={{ lineHeight: "2em" }}
       >
         <p>
-          Welcome to the unofficial
+          G'day, tune lovers and grog enthusiasts! Welcome to the unofficial
           drinking game for the Triple J Hottest 100. Grab a cold one, gather
           your mates, and let's get cracking!
         </p>
@@ -39,6 +39,10 @@ function HowToPlay() {
             <strong>Got Your Esky Packed?: </strong> If a song you voted for
             plays, it's your turn in the spotlight, the game will assign you a
             rule to follow!
+          </li>
+          <li>
+            <strong>No Whingers!:</strong> Mutter "should've been higher", and
+            you're sculling your drink. No sooks allowed!
           </li>
           <li>
             <strong>Chrome casting:</strong> In chrome right click, press cast
