@@ -101,8 +101,9 @@ function Name() {
   };
 
   const handleSave = async () => {
-    const update = votes.filter((v: any) => v.id !== "").map((v: any) => v.id);
-
+    const update = votes
+      .filter((v: any) => v.id !== "")
+      .map((v: any) => v.id.replace(/\s+/g, ""));
     await updateVotes(user_id, votes_data.id, update);
     loadVotes();
   };
