@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { FaArrowLeft, FaGear } from "react-icons/fa6";
 import { usePocket } from "@/contexts/PocketContext";
 import useSWR from "swr";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SVGComponent from "@/components/AnimatedLogo";
 import Rules from "@/components/Rule";
 import CountDown from "@/components/CountDown";
@@ -290,8 +290,23 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
       setShowPlayerRule(false); // Ensure it's hidden when there's no rule
     }
   }, [playerRule]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [shouldScroll, setShouldScroll] = useState(false);
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (!containerRef.current || !contentRef.current) return;
+      const container = containerRef.current;
+      const content = contentRef.current;
+      setShouldScroll(content.scrollWidth > container.clientWidth);
+    };
 
-  const duration = player_names.length * 4;
+    checkOverflow();
+
+    // Re-check on window resize
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, [player_names]);
   return (
     <>
       {showCode && id != "default" && (
@@ -336,10 +351,16 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
           {nowPlaying.name} - {nowPlaying.artist}
         </h1>
         {id != "default" && (
-          <div className="relative overflow-hidden">
+          <div
+            className="relative w-full overflow-hidden whitespace-nowrap"
+            ref={containerRef}
+          >
             <div
-              className="flex whitespace-nowrap animate-marquee"
-              style={{ animation: `marquee ${duration}s linear infinite` }}
+              ref={contentRef}
+              className={`inline-block whitespace-nowrap will-change-transform ${
+                shouldScroll ? "animate-marquee" : ""
+              }`}
+              style={{ animationDuration: "20s" }}
             >
               {player_names.map((item: string, index: number) => (
                 <span
@@ -349,6 +370,24 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
                   {item}
                 </span>
               ))}
+              {shouldScroll &&
+                player_names.map((item: string, index: number) => (
+                  <span
+                    key={index}
+                    className="mx-2 text-sm text-gray-300 text-xl"
+                  >
+                    {item}
+                  </span>
+                ))}
+              {shouldScroll &&
+                player_names.map((item: string, index: number) => (
+                  <span
+                    key={index}
+                    className="mx-2 text-sm text-gray-300 text-xl"
+                  >
+                    {item}
+                  </span>
+                ))}
             </div>
           </div>
         )}
