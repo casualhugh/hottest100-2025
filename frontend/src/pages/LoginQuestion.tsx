@@ -48,7 +48,7 @@ function LoginQuestion() {
     <div>
       <div className="max-w-md mx-auto p-4 text-center">
         <h1 className="text-3xl font-bold text-center my-4">
-          Hottest 200 2025 the game
+          Hottest 100 2025 The game
         </h1>
         <p className="">Do you want to save your votes between games?</p>
       </div>
