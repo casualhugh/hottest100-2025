@@ -19,16 +19,21 @@ function SignIn() {
 
   const handleUserNameChange = (e: any) => {
     setUserName(e.target.value);
-    setValidName(true);
+    setValidName(e.target.value.length > 3);
   };
 
   const handlePasswordChange = (e: any) => {
     setPassword(e.target.value);
+    if (e.target.value.length > 3) {
+      setValidPassword(true);
+    } else {
+      setValidPassword(false);
+    }
   };
 
   const handleConfirmPasswordChange = (e: any) => {
     setConfirmPassword(e.target.value);
-    if (password === confirmPassword) {
+    if (password === e.target.value) {
       setValidPassword(true);
     } else {
       setValidPassword(false);
@@ -87,10 +92,13 @@ function SignIn() {
     <div>
       <div className="max-w-md mx-auto p-4 text-center">
         <h1 className="text-3xl font-bold text-center my-4">
-          Hottest 200 2025 the game
+          Hottest 100 (Aussie edition) 2025 The game
         </h1>
         <p className="mt-8 text-xl font-bold text-center my-4">
-          Enter your username and password
+          Enter your username and password. If you have played before please make a new account.
+        </p>
+        <p className="mt-8 text-xl font-bold text-center my-4">
+          Password must be more than 4 characters
         </p>
         <form
           onSubmit={(e) => {
