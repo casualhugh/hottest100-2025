@@ -54,7 +54,7 @@ function Name() {
     <div>
       <div className="max-w-md mx-auto p-4 text-center">
         <h1 className="text-3xl font-bold text-center my-4">
-          Hottest 200 2025 the game
+          Hottest 100 2025 the game
         </h1>
         <p className="">Game Code: {`${id}`}</p>
         <p className="mt-8 text-xl font-bold text-center my-4">
