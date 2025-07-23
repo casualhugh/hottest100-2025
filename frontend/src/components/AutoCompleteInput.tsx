@@ -121,6 +121,7 @@ const AutoCompleteInput = ({
           <ul>
             {filteredSuggestions.map((suggestion: any, index: number) => (
               <li
+                className="z-20 cursor-pointer"
                 key={index}
                 onClick={() =>
                   updateVote({
