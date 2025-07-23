@@ -11,7 +11,7 @@ function Welcome() {
   const navigate = useNavigate();
 
   const handleCodeChange = (e: any) => {
-    setGameCode(e.target.value);
+    setGameCode(e.target.value.toLowerCase());
     setValidCode(true);
     setErrorMsg("");
   };
