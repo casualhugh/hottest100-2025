@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function CountDown() {
-  const targetDate = new Date("2026-01-24T01:00:00Z");
+  const targetDate = new Date("2025-07-26T00:00:00Z");
   const calculateTimeLeft = () => {
     const now = new Date();
     const nowTimestamp = now.getTime(); // Get timestamp of current date/time
