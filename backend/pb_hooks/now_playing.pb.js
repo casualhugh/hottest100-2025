@@ -52,7 +52,7 @@ cronAdd("nowplaying", "*/1 * * * *", () => {
     try {
       // Fetch Currently playing song
       const res = $http.send({
-        url: "https://music.abcradio.net.au/api/v1/plays/triplej/now.json",
+        url: "https://music.abcradio.net.au/api/v1/plays/doublej/now.json",
         method: "GET",
         // body: "", // ex. JSON.stringify({"test": 123}) or new FormData()
         // headers: {}, // ex. {"content-type": "application/json"}
