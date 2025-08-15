@@ -12,7 +12,7 @@ function GameOver() {
           This is a drinking game like Kahoot where you can choose to host a game or join
           one. If you're hosting, you'll be given a unique code that you can
           share with friends.
-          We will be back for the Australian Hottest 100 26th July 2025!
+          We will be back for the Hottest 100 24th Jan 2026!
         </p>
         <CountDown />
         </div>

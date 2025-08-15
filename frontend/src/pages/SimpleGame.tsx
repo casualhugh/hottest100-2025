@@ -122,7 +122,7 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
   };
   const navigate = useNavigate();
   // countdownstarts should be true if it is after targetDate
-  const targetDate = new Date("2025-08-02T00:00:00Z");
+  const targetDate = new Date("2026-01-24T01:00:00Z");
   const [countDownStarted, setCountDownStarted] = useState(
     targetDate.getTime() < new Date().getTime()
   );
