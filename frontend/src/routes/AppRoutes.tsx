@@ -21,7 +21,8 @@ import { PocketProvider } from "@/contexts/PocketContext";
 // import NewGame from "@/pages/NewGame";
 // import SignIn from "@/pages/SignIn";
 // import GuestGame from "@/pages/GuestGame";
-import GameOver from "@/pages/GameOver";
+// import GameOver from "@/pages/GameOver";
+import SubmitRules from "@/pages/SubmitRules";
 
 const AppRoutes: React.FC = () => (
   <Router>
@@ -29,7 +30,7 @@ const AppRoutes: React.FC = () => (
       <MainLayout>
         <Routes>
           <Route path="*" element={<Navigate to={{ pathname: "/" }} />} />
-          <Route path="/" element={<GameOver />} />
+          <Route path="/" element={<SubmitRules />} />
 
           {/* <Route path="/" element={<Welcome />} />
           <Route path="/login/" element={<SignIn />} />
