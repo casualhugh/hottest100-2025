@@ -6,8 +6,8 @@ import { CiSearch } from "react-icons/ci";
 function SubmitRules() {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [selected, setSelected] = useState(null);
-  const [submittedRules, setSubmittedRules] = useState([]);
+  const [selected, setSelected] = useState<any>(null);
+  // const [submittedRules, setSubmittedRules] = useState([]);
   const [enteredRule, setEnteredRule] = useState("");
   const [songs, setSongs] = useState([]);
 
@@ -94,7 +94,7 @@ function SubmitRules() {
       </div>
       {selected && (
         <div className="mt-6 text-center bg-gray-200 p-4 rounded-lg w-3/4 mx-auto">
-          <h2 className="text-2xl font-bold">{selected.name}</h2>
+          <h2 className="text-2xl font-bold">{selected?.name}</h2>
           <p className="text-gray-600">{selected.artist}</p>
         </div>
       )}
