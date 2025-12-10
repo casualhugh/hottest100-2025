@@ -112,7 +112,7 @@ function SubmitRules() {
           Submit
         </button>
       </div>
-      <div className="mt-8 mx-auto w-3/4">
+      {/* <div className="mt-8 mx-auto w-3/4">
         <h3 className="text-xl font-bold mb-4">
           Your Rules ({submittedRules.length})
         </h3>
@@ -132,7 +132,7 @@ function SubmitRules() {
             </li>
           ))}
         </ul>
-      </div>      
+      </div>       */}
     </div>
   );
 }
