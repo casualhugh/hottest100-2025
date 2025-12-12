@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { distance } from "fastest-levenshtein";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import { CiSearch } from "react-icons/ci";
+import { usePocket } from "@/contexts/PocketContext";
 
 function SubmitRules() {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selected, setSelected] = useState<any>(null);
   // const [submittedRules, setSubmittedRules] = useState([]);
+  const { createSuggestion } = usePocket();
   const [enteredRule, setEnteredRule] = useState("");
   const [songs, setSongs] = useState([]);
 
@@ -23,8 +25,6 @@ function SubmitRules() {
     loadJSON();
   }, []);
 
-  console.log("Songs loaded:", songs[0]);
-  
   const handleSearchChange = (e: any) => {
     setSearch(e.target.value);
     const results = songs.filter((song: any) =>
@@ -33,86 +33,102 @@ function SubmitRules() {
     );
     // Sort by levenshtein distance 
     results.sort((a: any, b: any) => {
-        const distanceA = distance(e.target.value.toLowerCase(), a.name.toLowerCase());
-        const distanceB = distance(e.target.value.toLowerCase(), b.name.toLowerCase());
-        return distanceA - distanceB;
+      const distanceA = distance(e.target.value.toLowerCase(), a.name.toLowerCase());
+      const distanceB = distance(e.target.value.toLowerCase(), b.name.toLowerCase());
+      return distanceA - distanceB;
     });
     setSearchResults(results.slice(0, 10));
   };
 
-  return (
-    <div className="text-black">
-      <h1 className="text-3xl font-bold text-center my-4">
-          Hottest 100 the game suggestion box
-        </h1>
-      <div className="flex justify-center mt-10 relative">
-        
-        <div className="relative w-96">
-          <input
-            type="text"
-            value={search}
-            onChange={handleSearchChange}
-            placeholder="Search for a song or artist..."
-            className="w-full pl-10 pr-10 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 "
+  const randomizeSelected = () => {
+    if (songs.length > 0) {
+      const randomIndex = Math.floor(Math.random() * songs.length);
+      setSelected(songs[randomIndex]);
+      setSearch("");
+      setSearchResults([]);
+      setEnteredRule("");
+    }
+  };
+
+
+const handleSubmit = (e: any) => {
+  e.preventDefault();
+  if (selected && enteredRule.trim() !== "") {
+    // Handle rule submission logic here
+    console.log("Submitted rule:", { song: selected, rule: enteredRule });
+    createSuggestion("", selected.id, selected.name, selected.artist, enteredRule);
+    // Clear inputs after submission  
+    setSelected(null);
+    setEnteredRule("");
+    randomizeSelected();
+  }
+};
+
+return (
+  <div className="text-black">
+    <h1 className="text-3xl font-bold text-center my-4">
+      Hottest 100 Jan 2026 The game suggestion box
+    </h1>
+    <div className="flex justify-center mt-10 relative">
+
+      <div className="relative w-96">
+        <input
+          type="text"
+          value={search}
+          onChange={handleSearchChange}
+          placeholder="Search for a song or artist..."
+          className="w-full pl-10 pr-10 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 "
+        />
+        <div className="absolute left-3 top-2.5 text-gray-400">
+          <CiSearch size={20} />
+        </div>
+        <div className="absolute right-3 top-2.5 text-gray-400 cursor-pointer">
+          <GiPerspectiveDiceSixFacesRandom
+            size={20}
+            onClick={randomizeSelected}
           />
-          <div className="absolute left-3 top-2.5 text-gray-400">
-            <CiSearch size={20} />
-          </div>
-          <div className="absolute right-3 top-2.5 text-gray-400 cursor-pointer">
-            <GiPerspectiveDiceSixFacesRandom
-              size={20}
-              onClick={() => {
-                if (songs.length > 0) {
-                  const randomIndex = Math.floor(Math.random() * songs.length);
-                  setSelected(songs[randomIndex]);
+        </div>
+        {searchResults.length > 0 && (
+          <ul className="absolute z-10 bg-white border border-gray-300 w-full mt-1 max-h-60 overflow-y-auto rounded-md shadow-lg">
+            {searchResults.map((song: any) => (
+              <li
+                key={`${song.name}-${song.artist}`}
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                onClick={() => {
+                  setSelected(song);
                   setSearch("");
                   setSearchResults([]);
                   setEnteredRule("");
-                }
-              }}
-            />
-          </div> 
-          {searchResults.length > 0 && (
-            <ul className="absolute z-10 bg-white border border-gray-300 w-full mt-1 max-h-60 overflow-y-auto rounded-md shadow-lg">
-              {searchResults.map((song: any) => (
-                <li
-                  key={`${song.name}-${song.artist}`}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => {
-                    setSelected(song);
-                    setSearch("");
-                    setSearchResults([]);
-                    setEnteredRule("");
-                  }}
-                >
-                  {song.name} | {song.artist}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+                }}
+              >
+                {song.name} | {song.artist}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-      {selected && (
-        <div className="mt-6 text-center bg-gray-200 p-4 rounded-lg w-3/4 mx-auto">
-          <h2 className="text-2xl font-bold">{selected?.name}</h2>
-          <p className="text-gray-600">{selected.artist}</p>
-        </div>
-      )}
-      <div className="mt-6 flex justify-center">
-        <textarea
-          className="w-96 h-32 p-4 border border-gray-300 rounded-lg focus:outline-none focus:none focus:ring-blue-500"
-          placeholder="Enter a drinking rule..."
-          value={enteredRule}
-          onChange={(e) => setEnteredRule(e.target.value)}
-          disabled={!selected}
-        ></textarea>
+    </div>
+    {selected && (
+      <div className="mt-6 text-center bg-gray-200 p-4 rounded-lg w-3/4 mx-auto">
+        <h2 className="text-2xl font-bold">{selected?.name}</h2>
+        <p className="text-gray-600">{selected.artist}</p>
       </div>
-      <div className="mt-4 flex justify-center">
-        <button className="bg-blue-500 text-white px-6 py-2 hover:bg-blue-600 disabled:bg-gray-400" disabled={!selected || enteredRule.trim() === ""}>
-          Submit
-        </button>
-      </div>
-      {/* <div className="mt-8 mx-auto w-3/4">
+    )}
+    <div className="mt-6 flex justify-center">
+      <textarea
+        className="w-96 h-32 p-4 border border-gray-300 rounded-lg focus:outline-none focus:none focus:ring-blue-500"
+        placeholder="Enter a drinking rule..."
+        value={enteredRule}
+        onChange={(e) => setEnteredRule(e.target.value)}
+        disabled={!selected}
+      ></textarea>
+    </div>
+    <div className="mt-4 flex justify-center">
+      <button className="bg-blue-500 text-white px-6 py-2 hover:bg-blue-600 disabled:bg-gray-400" disabled={!selected || enteredRule.trim() === ""} onClick={handleSubmit}>
+        Submit
+      </button>
+    </div>
+    {/* <div className="mt-8 mx-auto w-3/4">
         <h3 className="text-xl font-bold mb-4">
           Your Rules ({submittedRules.length})
         </h3>
@@ -133,8 +149,8 @@ function SubmitRules() {
           ))}
         </ul>
       </div>       */}
-    </div>
-  );
+  </div>
+);
 }
 
 export default SubmitRules;

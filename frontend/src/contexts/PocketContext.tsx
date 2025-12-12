@@ -31,6 +31,7 @@ interface PocketContextType {
   game: any;
   showCode: any;
   toggleShowCode: any;
+  createSuggestion: any;
 }
 const PocketContext = createContext<PocketContextType>({
   register: () => {},
@@ -49,6 +50,7 @@ const PocketContext = createContext<PocketContextType>({
   game: null,
   showCode: false,
   toggleShowCode: () => {},
+  createSuggestion: () => {},
 });
 
 function getRandomString(length: number) {
@@ -78,6 +80,9 @@ export const PocketProvider = ({ children }: any) => {
   const toggleShowCode = () => {
     setShowCode(!showCode);
   };
+
+
+
   const getVotes = async (players: any) => {
     const filter = `user.id = "` + players.join(`" || user.id = "`) + `"`;
     return pb
@@ -220,6 +225,20 @@ export const PocketProvider = ({ children }: any) => {
     []
   );
 
+  const createSuggestion = useCallback(
+    async (user_id: string|null, song_id: string, song_name: string, song_artist: string, suggestion: string) => {
+      return await pb.collection("suggestions").create({
+        user: user_id,
+        suggestion,
+        song_id,
+        song_id_bk: song_id,
+        song_name,
+        song_artist,
+      });
+    },
+    []
+  );
+
   const logout = useCallback(() => {
     pb.authStore.clear();
     setUser(null);
@@ -290,6 +309,7 @@ export const PocketProvider = ({ children }: any) => {
         game,
         showCode,
         toggleShowCode,
+        createSuggestion,
       }}
     >
       {children}
