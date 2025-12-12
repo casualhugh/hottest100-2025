@@ -9,7 +9,7 @@ function SubmitRules() {
   const [searchResults, setSearchResults] = useState([]);
   const [selected, setSelected] = useState<any>(null);
   // const [submittedRules, setSubmittedRules] = useState([]);
-  const { createSuggestion } = usePocket();
+  const { user, createSuggestion } = usePocket();
   const [enteredRule, setEnteredRule] = useState("");
   const [songs, setSongs] = useState([]);
 
@@ -56,7 +56,7 @@ const handleSubmit = (e: any) => {
   if (selected && enteredRule.trim() !== "") {
     // Handle rule submission logic here
     console.log("Submitted rule:", { song: selected, rule: enteredRule });
-    createSuggestion("", selected.id, selected.name, selected.artist, enteredRule);
+    createSuggestion(user.id, selected.id, selected.name, selected.artist, enteredRule);
     // Clear inputs after submission  
     setSelected(null);
     setEnteredRule("");

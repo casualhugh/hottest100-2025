@@ -63,9 +63,8 @@ function Welcome() {
         </h1>
 
         <p className="">
-          This is a drinking game where for each song of the hottest 100 there's
-          a new drinking rule. Additionally, players can enter in their votes
-          and there will be special rules when a song they voted for plays
+          Each song in the countdown comes with its own drinking rule, and you can also drop in the songs you voted for so there are extra rules when your picks show up. It gets silly pretty quickly.
+          I am still putting this together, so if you have any ideas or suggestions, send them my way.
         </p>
         <CountDown />
         <p className="mt-8">Enter your game code</p>
