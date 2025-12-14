@@ -104,7 +104,8 @@ export const PocketProvider = ({ children }: any) => {
       });
   };
 
-  const getSuggestions = async (user_id: string) => {
+  const getSuggestions = async (user_id: string | undefined) => {
+    if (user_id === undefined || user_id === "undefined") return [];
     const filter = `user.id = "` + user_id + `"`;
     return pb
       .collection(`suggestions`)
