@@ -8,8 +8,8 @@ function SubmitRules() {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selected, setSelected] = useState<any>(null);
-  // const [submittedRules, setSubmittedRules] = useState([]);
-  const { user, createSuggestion } = usePocket();
+  const [submittedRules, setSubmittedRules] = useState([]);
+  const { user, createSuggestion, getSuggestions } = usePocket();
   const [enteredRule, setEnteredRule] = useState("");
   const [songs, setSongs] = useState([]);
 
@@ -23,7 +23,11 @@ function SubmitRules() {
       }
     };
     loadJSON();
-  }, []);
+    getSuggestions(user.id).then((rules: any) => {
+      console.log(rules);
+      if (rules && rules.length > 0) setSubmittedRules(rules);
+    });
+  }, [selected]);
 
   const handleSearchChange = (e: any) => {
     setSearch(e.target.value);
@@ -128,27 +132,25 @@ return (
         Submit
       </button>
     </div>
-    {/* <div className="mt-8 mx-auto w-3/4">
+    <div className="mt-8 mx-auto w-3/4">
         <h3 className="text-xl font-bold mb-4">
-          Your Rules ({submittedRules.length})
+          Your Suggestions ({submittedRules.length})
         </h3>
-        <ul>
+        <ul className="overflow-y-auto max-h-96">
           {submittedRules.map((rule: any, index: number) => (
             <li
               key={index}
-              className="flex justify-between items-center mb-4 p-4 border border-gray-300 rounded-lg"
+              className="flex justify-between items-center mb-4 p-4 border border-gray-300 bg-gray-100 rounded-lg"
             >
               <div>
-                <h4 className="text-lg font-bold">{rule.song.name}</h4>
-                <p className="text-gray-600">{rule.song.artist}</p>
+                <h4 className="text-lg font-bold">{rule.song_name}</h4>
+                <p className="text-gray-600">{rule.song_artist}</p>
+                <p className="mt-2">{rule.suggestion}</p>
               </div>
-              <button className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600">
-                Delete
-              </button>
             </li>
           ))}
         </ul>
-      </div>       */}
+      </div>      
   </div>
 );
 }

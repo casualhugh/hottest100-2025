@@ -32,6 +32,7 @@ interface PocketContextType {
   showCode: any;
   toggleShowCode: any;
   createSuggestion: any;
+  getSuggestions: any;
 }
 const PocketContext = createContext<PocketContextType>({
   register: () => {},
@@ -51,6 +52,7 @@ const PocketContext = createContext<PocketContextType>({
   showCode: false,
   toggleShowCode: () => {},
   createSuggestion: () => {},
+  getSuggestions: () => {},
 });
 
 function getRandomString(length: number) {
@@ -92,6 +94,26 @@ export const PocketProvider = ({ children }: any) => {
         expand: "user",
       })
       .then((resultList) => {
+        if (resultList && resultList?.items) {
+          return resultList.items;
+        }
+        return [];
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getSuggestions = async (user_id: string) => {
+    const filter = `user.id = "` + user_id + `"`;
+    return pb
+      .collection(`suggestions`)
+      .getList(1, 100, {
+        filter,
+        // expand: "song",
+      })
+      .then((resultList) => {
+        console.log(resultList);
         if (resultList && resultList?.items) {
           return resultList.items;
         }
@@ -310,6 +332,7 @@ export const PocketProvider = ({ children }: any) => {
         showCode,
         toggleShowCode,
         createSuggestion,
+        getSuggestions,
       }}
     >
       {children}
