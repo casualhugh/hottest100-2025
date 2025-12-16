@@ -1,4 +1,4 @@
-router.add("POST", "/import-songs", async (e) => {
+routerAdd("POST", "/import-songs", async (e) => {
     let songs;
     if (!e.auth?.isSuperuser()) {
         return e.json(403, { error: "Forbidden" })
