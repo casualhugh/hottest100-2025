@@ -62,7 +62,6 @@ const handleSubmit = (e: any) => {
     console.log("Submitted rule:", { song: selected, rule: enteredRule });
     createSuggestion(user.id, selected.id, selected.name, selected.artist, enteredRule);
     // Clear inputs after submission  
-    setSelected(null);
     setEnteredRule("");
     randomizeSelected();
   }
