@@ -253,7 +253,7 @@ export const PocketProvider = ({ children }: any) => {
       return await pb.collection("suggestions").create({
         user: user_id,
         suggestion,
-        song_id,
+        song: song_id,
         song_id_bk: song_id,
         song_name,
         song_artist,
