@@ -1,24 +1,25 @@
-function upsertArtist(artist) {
-    const { id, name, searchable_name } = artist
-    if (!id) return null
-
-    try {
-        // Try fetch by ID
-        return $app.findRecordById("artists", id)
-    } catch (_) {
-        // Create if missing
-        const record = new Record(artistCollection)
-        record.set("id", id)
-        record.set("name", name)
-        record.set("searchable_name", searchable_name)
-
-        $app.save(record)
-        return record
-    }
-}
 
 
 routerAdd("POST", "/import-songs", async (e) => {
+    function upsertArtist(artist) {
+        const { id, name, searchable_name } = artist
+        if (!id) return null
+
+        try {
+            // Try fetch by ID
+            return $app.findRecordById("artists", id)
+        } catch (_) {
+            // Create if missing
+            const record = new Record(artistCollection)
+            record.set("id", id)
+            record.set("name", name)
+            record.set("searchable_name", searchable_name)
+
+            $app.save(record)
+            return record
+        }
+    }
+
     let songs;
     if (!e.auth?.isSuperuser()) {
         return e.json(403, { error: "Forbidden" })
