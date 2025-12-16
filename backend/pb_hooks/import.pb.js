@@ -1,14 +1,16 @@
-router.add("POST", "/import-songs", async (c) => {
-    let songs
-
+router.add("POST", "/import-songs", async (e) => {
+    let songs;
+    if (!e.auth?.isSuperuser()) {
+        return e.json(403, { error: "Forbidden" })
+    }
     try {
         songs = await c.req.json()
     } catch (err) {
-        return c.json(400, { error: "Invalid JSON body" })
+        return e.json(400, { error: "Invalid JSON body" })
     }
 
     if (!Array.isArray(songs)) {
-        return c.json(400, { error: "Expected an array of songs" })
+        return e.json(400, { error: "Expected an array of songs" })
     }
 
     const collection = $app.findCollectionByNameOrId("songs")
@@ -70,5 +72,5 @@ router.add("POST", "/import-songs", async (c) => {
         }
     }
 
-    return c.json(200, results)
+    return e.json(200, results)
 })
