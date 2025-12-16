@@ -1,3 +1,23 @@
+function upsertArtist(artist) {
+    const { id, name, searchable_name } = artist
+    if (!id) return null
+
+    try {
+        // Try fetch by ID
+        return $app.findRecordById("artists", id)
+    } catch (_) {
+        // Create if missing
+        const record = new Record(artistCollection)
+        record.set("id", id)
+        record.set("name", name)
+        record.set("searchable_name", searchable_name)
+
+        $app.save(record)
+        return record
+    }
+}
+
+
 routerAdd("POST", "/import-songs", async (e) => {
     let songs;
     if (!e.auth?.isSuperuser()) {
@@ -17,7 +37,7 @@ routerAdd("POST", "/import-songs", async (e) => {
     }
 
     const collection = $app.findCollectionByNameOrId("songs")
-
+    const artistCollection = $app.findCollectionByNameOrId("artists")
     let results = {
         created: 0,
         updated: 0,
@@ -30,8 +50,10 @@ routerAdd("POST", "/import-songs", async (e) => {
             name,
             artist,
             game_rule,
+            full_title,
             searchable_name,
-            searchable_artist
+            searchable_artist,
+            artists
         } = song
 
         if (!id) {
@@ -58,10 +80,28 @@ routerAdd("POST", "/import-songs", async (e) => {
                 record.set("id", id)
                 record.set("name", name)
                 record.set("artist", artist)
+                record.set("full_title", full_title)
                 record.set("game_rule", game_rule)
                 record.set("searchable_name", searchable_name)
                 record.set("searchable_artist", searchable_artist)
 
+                
+                const artistIds = []
+                for (const artist of song.artists) {
+                    try {
+                        const artistRecord = upsertArtist(artist)
+                        if (artistRecord) {
+                            artistIds.push(artistRecord.id)
+                        }
+                    } catch (err) {
+                        results.errors.push({
+                            songId: id,
+                            artist,
+                            error: err.message ?? String(err)
+                        })
+                    }
+                }
+                record.set("artists", artistIds)
                 $app.save(record);
 
                 results.created++
