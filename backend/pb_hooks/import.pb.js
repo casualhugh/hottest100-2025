@@ -6,7 +6,7 @@ routerAdd("POST", "/import-songs", async (e) => {
     try {
         console.log("Importing songs...", console.log(toString(e.request.body)));
 
-        songs = await c.req.json()
+        songs = await e.req.json()
     } catch (err) {
         console.log(err)
         return e.json(400, { error: "Invalid JSON body" + (err.message ? ": " + err.message : "") })
