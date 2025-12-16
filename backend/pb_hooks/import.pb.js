@@ -102,7 +102,7 @@ routerAdd("POST", "/import-songs", async (e) => {
                         })
                     }
                 }
-                record.set("artists", artistIds)
+                record.set("artist_ids", artistIds)
                 $app.save(record);
 
                 results.created++
