@@ -50,13 +50,13 @@ const AutoCompleteInput = ({
   const handleFocus = () => {
     setTimeout(() => {
       setIsFocused(true);
-    }, 100);
+    }, 200);
   };
 
   const handleBlur = () => {
     setTimeout(() => {
       setIsFocused(false);
-    }, 100);
+    }, 200);
   };
   const updateSongFilter = (input: string) => {
     setSongInput(input);

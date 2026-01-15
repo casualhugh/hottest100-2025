@@ -9,36 +9,38 @@ import {
 import MainLayout from "@/layouts/MainLayout";
 import { PocketProvider } from "@/contexts/PocketContext";
 import { RequireAuth } from "@/components/RequireAuth";
-// import { RequireInGame } from "@/components/RequireInGame";
-// import HowToPlay from "@/pages/HowToPlay";
-// import Game from "@/pages/Game";
-// import Manage from "@/pages/Manage";
+import { RequireInGame } from "@/components/RequireInGame";
+import HowToPlay from "@/pages/HowToPlay";
+import Game from "@/pages/Game";
+import Manage from "@/pages/Manage";
 import Name from "@/pages/Name";
-// import Settings from "@/pages/Settings";
-// import Votes from "@/pages/Votes";
-// import Welcome from "@/pages/Welcome";
-// import LoginQuestion from "@/pages/LoginQuestion";
-// import NewGame from "@/pages/NewGame";
+import Settings from "@/pages/Settings";
+import Votes from "@/pages/Votes";
+import Welcome from "@/pages/Welcome";
+import LoginQuestion from "@/pages/LoginQuestion";
+import NewGame from "@/pages/NewGame";
 import SignIn from "@/pages/SignIn";
-// import GuestGame from "@/pages/GuestGame";
+import GuestGame from "@/pages/GuestGame";
 // import GameOver from "@/pages/GameOver";
-import SubmitRules from "@/pages/SubmitRules";
-import WelcomeSuggest from "@/pages/WelcomeSuggest";
+// import SubmitRules from "@/pages/SubmitRules";
+// import WelcomeSuggest from "@/pages/WelcomeSuggest";
 
 const AppRoutes: React.FC = () => (
   <Router>
     <PocketProvider>
       <MainLayout>
         <Routes>
-          <Route path="*" element={<Navigate to={{ pathname: "/" }} />} />
-          <Route path="/" element={<WelcomeSuggest />} />
+          {/* <Route path="*" element={<Navigate to={{ pathname: "/" }} />} /> */}
+          <Route path="/" element={<Welcome />} />
           <Route path="/login/" element={<SignIn />} />
           <Route path="/name/:id" element={<Name />} />
+
+          {/* <Route path="/" element={<WelcomeSuggest />} />
           <Route element={<RequireAuth />}> 
             <Route path="/suggest/" element={<SubmitRules />} />
-          </Route>
+          </Route> */}
           
-          {/*
+          
           <Route path="/question/:id" element={<LoginQuestion />} />
           <Route path="/play" element={<GuestGame />} />
           <Route element={<RequireAuth />}>
@@ -50,7 +52,7 @@ const AppRoutes: React.FC = () => (
               <Route path="/game/:id" element={<Game />} />
               <Route path="/manage/:id" element={<Manage />} />
             </Route>
-          </Route> */}
+          </Route>
         </Routes>
       </MainLayout>
     </PocketProvider>
