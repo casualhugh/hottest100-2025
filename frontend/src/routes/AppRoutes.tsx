@@ -30,7 +30,7 @@ const AppRoutes: React.FC = () => (
     <PocketProvider>
       <MainLayout>
         <Routes>
-          {/* <Route path="*" element={<Navigate to={{ pathname: "/" }} />} /> */}
+          <Route path="*" element={<Navigate to={{ pathname: "/" }} />} />
           <Route path="/" element={<Welcome />} />
           <Route path="/login/" element={<SignIn />} />
           <Route path="/name/:id" element={<Name />} />
