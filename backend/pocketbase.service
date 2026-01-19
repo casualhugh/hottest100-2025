@@ -1,0 +1,18 @@
+
+[Unit]
+Description = pocketbase
+
+[Service]
+Type             = simple
+User             = root
+Group            = root
+LimitNOFILE      = 4096
+Restart          = always
+RestartSec       = 5s
+StandardOutput   = append:/home/ec2-user/std.log
+StandardError    = append:/home/ec2-user/std.log
+WorkingDirectory = /home/ec2-user/service/backend
+ExecStart        = /home/ec2-user/service/backend/pocketbase serve api.hottest100game.com
+
+[Install]
+WantedBy = multi-user.target
