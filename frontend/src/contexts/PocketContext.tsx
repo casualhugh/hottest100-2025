@@ -82,9 +82,7 @@ export const PocketProvider = ({ children }: any) => {
   const toggleShowCode = () => {
     setShowCode(!showCode);
   };
-
-
-
+  
   const getVotes = async (players: any) => {
     const filter = `user.id = "` + players.join(`" || user.id = "`) + `"`;
     return pb
@@ -300,15 +298,27 @@ export const PocketProvider = ({ children }: any) => {
   }, []);
 
   const refreshSession = useCallback(async () => {
-    if (!pb.authStore.isValid) return;
+    if (!pb.authStore.isValid){ 
+      logout();
+      return;
+    }
+    try {
     const decoded = jwtDecode(token);
-    const tokenExpiration = decoded.exp;
+    const tokenExpiration = decoded?.exp;
+
     const expirationWithBuffer =
-      decoded && decoded?.exp
-        ? (decoded?.exp + fiveMinutesInMs) / 1000
-        : fiveMinutesInMs;
-    if (tokenExpiration && tokenExpiration < expirationWithBuffer) {
+      tokenExpiration
+        ? (tokenExpiration * 1000) - fiveMinutesInMs
+        : 0;
+
+    // Refresh if token is close to expiring
+    if (Date.now() > expirationWithBuffer) {
+      console.log("Refreshing auth token", Date.now(), expirationWithBuffer);
       await pb.collection("users").authRefresh();
+    }
+    } catch (err) {
+      console.warn("Auth refresh failed, logging out", err);
+      logout();
     }
   }, [token]);
 
