@@ -378,7 +378,7 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
       )}
       {countDownStarted &&
       nowPlaying.position > 0 &&
-      nowPlaying.position < 201 ? (
+      nowPlaying.position < 101 ? (
         nowPlaying.rule.length > 0 ||
         playerRule.length > 0 ||
         countRule.length > 0 ? (
