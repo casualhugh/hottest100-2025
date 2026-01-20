@@ -76,7 +76,7 @@ function Welcome() {
             value={gameCode || ""}
             onChange={handleCodeChange}
             type="text"
-            placeholder="elephants"
+            placeholder="cheddar"
             className={`py-2 text-center bg-transparent focus:outline-none`}
           />
         </div>
