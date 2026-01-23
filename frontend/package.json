@@ -14,6 +14,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "fastest-levenshtein": "^1.0.16",
+    "hls.js": "^1.6.15",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.471.0",
     "ms": "^2.1.3",
