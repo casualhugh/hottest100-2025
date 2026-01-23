@@ -28,17 +28,17 @@ function HowToPlay() {
         <ul>
           <li>
             <strong>Voting:</strong> First up, punch in what you voted for in
-            this year's countdown.
-          </li>
-          <li>
-            <strong>The Countdown Conundrum:</strong> As each Hottest 100 song
-            plays, a random drinking rule pops up. Could be a nip, might be a
-            chug – be ready for anything!
-          </li>
-          <li>
-            <strong>Got Your Esky Packed?: </strong> If a song you voted for
+            this year's countdown.  If a song you voted for
             plays, it's your turn in the spotlight, the game will assign you a
-            rule to follow!
+            rule/game to play!
+          </li>
+          <li>
+            <strong>Rules/games:</strong>  As each Hottest 100 song
+            plays, a random drinking rule pops up. Could be a sip, might be a
+            chug be ready for anything!
+          </li>
+          <li>
+             <strong>Play button:</strong> Play the live radio stream of Triple J
           </li>
           <li>
             <strong>Chrome casting:</strong> In chrome right click, press cast
@@ -49,7 +49,7 @@ function HowToPlay() {
 
         <p>
           That's it, you legends! Let's make this a day to remember, or at least
-          try to remember.
+          try to.
         </p>
         <p>Cheers! 🎶🍺</p>
         <button
