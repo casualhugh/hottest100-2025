@@ -112,7 +112,6 @@ export const PocketProvider = ({ children }: any) => {
         // expand: "song",
       })
       .then((resultList) => {
-        console.log(resultList);
         if (resultList && resultList?.items) {
           return resultList.items;
         }

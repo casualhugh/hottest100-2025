@@ -292,10 +292,8 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
 
   useEffect(() => {
     if (game && game?.votes) {
-      console.log(game);
       const voted_for_time = game?.votes
         .filter((vote: any) => {
-          console.log(vote.votes);
           return vote.votes.includes(nowPlaying.id);
         })
         .map((vote: any) => capitalizeFirstLetter(vote.expand.user.name));
