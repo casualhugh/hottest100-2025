@@ -6,12 +6,12 @@ function NewGame() {
   const navigate = useNavigate();
   const { user, votesDone, logout, gameExists, pb } = usePocket();
 
-  async function generateUniqueGameCode() {
+  async function generateUniqueGameCode(generated: number = 0) {
     // Generate a game code
     const game_code = generate({
       minLength: 5,
       maxLength: 15,
-      exactly: 1,
+      exactly: generated > 5 ? (generated > 10 ? 3 : 2) : 1,
       join: "-",
     });
 
@@ -20,7 +20,7 @@ function NewGame() {
 
     // If it exists, recursively call the function to generate a new code
     if (exists) {
-      return generateUniqueGameCode();
+      return generateUniqueGameCode(generated + 1);
     }
 
     // Return the unique game code
