@@ -80,7 +80,6 @@ cronAdd("nowplaying", "*/1 * * * *", () => {
       // Access PocketBase collections
       const playedCollection = $app.findCollectionByNameOrId("played");
       const songsCollection = $app.findCollectionByNameOrId("songs");
-      const votesCollection = $app.findCollectionByNameOrId("votes");
       const currentTime = new Date();
       currentTime.setHours(currentTime.getHours() - 8);
       const year = currentTime.getFullYear();
@@ -182,9 +181,9 @@ cronAdd("nowplaying", "*/1 * * * *", () => {
         for (const vote of voteRecords) {
           if (
             vote.get("votes").includes(songId) &&
-            !vote.get("played").includes(playedId)
+            !vote.get("played").includes(songId)
           ) {
-            vote.set("played+", [playedId]);
+            vote.set("played+", [songId]);
             $app.save(vote);
           }
         }
@@ -230,9 +229,9 @@ cronAdd("update_played", "*/2 * * * *", () => {
       for (const vote of voteRecords) {
         if (
           vote.get("votes").includes(played.song) &&
-          !vote.get("played").includes(played.id)
+          !vote.get("played").includes(played.song)
         ) {
-          vote.set("played+", [played.id]);
+          vote.set("played+", [played.song]);
           $app.save(vote);
         }
       }
