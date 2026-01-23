@@ -12,7 +12,7 @@ export function LiveAudioControls({
   return (
       <button
         onClick={onToggle}
-        className="bg-primarybg hover:bg-orange-700 text-white font-bold py-4 px-4 rounded-full absolute right-0 mt-6 mr-6"
+        className="bg-primarybg hover:bg-orange-700 text-white font-bold py-4 px-4 rounded-full absolute top-0 mt-6 mr-6"
       >
         {isPlaying ? <FaPause size={40} /> : <FaPlay size={40} />}
       </button>

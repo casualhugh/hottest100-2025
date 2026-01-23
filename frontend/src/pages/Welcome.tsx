@@ -64,7 +64,7 @@ function Welcome() {
 
         <p className="">
           Each song in the countdown comes with its own drinking rule, and you can also drop in the songs you voted for so there are extra rules when your picks show up. It gets silly pretty quickly.
-          Press play on the right for live triple j
+          Press play at the top for live triple j
         </p>
         <CountDown />
         <p className="mt-8">Enter your game code</p>

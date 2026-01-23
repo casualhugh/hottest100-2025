@@ -38,7 +38,7 @@ function HowToPlay() {
             chug be ready for anything!
           </li>
           <li>
-             <strong>Play button:</strong> Play the live radio stream of Triple J
+             <strong>Play button:</strong> Button up top to play the live radio stream of Triple J
           </li>
           <li>
             <strong>Chrome casting:</strong> In chrome right click, press cast
