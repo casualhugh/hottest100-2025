@@ -87,7 +87,16 @@ function NewGame() {
         });
     } catch (e) {}
   }, [user]);
-  return <div>New Game</div>;
+  return <div>
+    <div>Loading...</div>
+    <button
+          className="bg-primarybg  mt-2 w-full p-4 rounded-lg px-20 font-bold text-white"
+          onClick={() => {logout();
+      navigate("/login?next=/new/")}}
+        >Try again</button>
+
+
+  </div>;
 }
 
 export default NewGame;
