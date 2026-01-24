@@ -158,7 +158,7 @@ const count_msg: { [key: number]: string } = {
   93: "Starting off strong, everyone is now signed up to play 1 drink before #90 or 10 before #50",
   92: "Starting off strong, everyone is now signed up to play 1 drink before #90 or 10 before #50",
   91: "Starting off strong, everyone is now signed up to play 1 drink before #90 or 10 before #50",
-  90: "If you haven't finished 1 drink before now you must finish 10 drinks before #0 plays",
+  90: "If you haven't finished 1 drink before now you must finish 10 drinks before #50 plays",
   76: "Get ready to take a group photo at #75",
   75: "Take your group photo say 'I love triple J' and tag @hottest100gamedotcom on instagram",
   51: "Get ready to take your #50 grouup photo",
