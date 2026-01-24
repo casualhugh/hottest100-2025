@@ -240,7 +240,6 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
       });
       if (count_msg.hasOwnProperty(data.countdown_position)) {
         setCountRule(count_msg[data.countdown_position]);
-        console.log("setting count rule", count_msg[data.countdown_position]);
       } else {
         setCountRule("");
       }
@@ -325,7 +324,6 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
           if (showPlayerRule) {
             setShowPlayerRule(false);
             setShowCountRule(true);
-            console.log("switching to count rule");
           } else if (showCountRule) {
             setShowCountRule(false);
             setShowPlayerRule(false);
@@ -342,7 +340,6 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
     } else if (countRule.length > 0) {
       const interval = setInterval(() => {
         setShowCountRule((prev) => !prev);
-        console.log("switching count rule");
       }, 5000);
 
       return () => clearInterval(interval);
