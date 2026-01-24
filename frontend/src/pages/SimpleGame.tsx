@@ -214,12 +214,13 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
   };
 
   const { data } = useSWR(
-    "/getNowPlaying",
-    async () =>
-      await pb.collection("played").getFirstListItem("", {
+    "played/latest?expand=song",
+    () =>
+      pb.collection("played").getFirstListItem("", {
         expand: "song",
         sort: "-played_at",
-      })
+      }),
+    { refreshInterval: 5000 }
   );
   // todo: Sub to now playing and update when that does
   const [countRule, setCountRule] = useState("");
