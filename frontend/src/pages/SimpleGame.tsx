@@ -342,6 +342,7 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
     } else if (countRule.length > 0) {
       const interval = setInterval(() => {
         setShowCountRule((prev) => !prev);
+        console.log("switching count rule");
       }, 5000);
 
       return () => clearInterval(interval);
@@ -349,7 +350,7 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
       setShowCountRule(false);
       setShowPlayerRule(false); // Ensure it's hidden when there's no rule
     }
-  }, [playerRule]);
+  }, [playerRule, countRule]);
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [shouldScroll, setShouldScroll] = useState(false);
