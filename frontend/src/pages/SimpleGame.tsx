@@ -334,13 +334,13 @@ const SimpleGame = ({ id }: { id: string | undefined }) => {
         } else {
           setShowPlayerRule((prev) => !prev);
         }
-      }, 5000);
+      }, 7500);
 
       return () => clearInterval(interval); // Cleanup on unmount or when playerRule changes
     } else if (countRule.length > 0) {
       const interval = setInterval(() => {
         setShowCountRule((prev) => !prev);
-      }, 5000);
+      }, 7500);
 
       return () => clearInterval(interval);
     } else {
